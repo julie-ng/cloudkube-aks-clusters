@@ -1,0 +1,14 @@
+.DS_Store
+.env
+*.azcli
+*.log
+*.md
+
+*.conf
+*.tfplan
+
+secrets.tf
+certs/
+*.cert
+*.key
+*.pfx
