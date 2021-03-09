@@ -1,9 +1,9 @@
-variable "base_name" {
+variable "name" {
   type = string
   description = "A prefix used for all resources in this project (incl. dashes). Required."
 
   validation {
-    condition     = length(var.base_name) < 20
+    condition     = length(var.name) < 20
     error_message = "Name must be less than 20 characters."
   }
 }
@@ -33,6 +33,6 @@ variable "default_tags" {
 # -----------------
 
 locals {
-	base_name 				 = lower("${var.base_name}%{ if var.suffix != "" }-${var.suffix}%{ endif }")
-  base_name_squished = replace(local.base_name, "-", "")
+	name 				 = lower("${var.name}%{ if var.suffix != "" }-${var.suffix}%{ endif }")
+  name_squished = replace(local.name, "-", "")
 }
