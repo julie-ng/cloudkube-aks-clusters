@@ -5,6 +5,6 @@ variable "name" {
 }
 
 variable "suffix" {
-  type = string
+  type    = string
   default = ""
 }

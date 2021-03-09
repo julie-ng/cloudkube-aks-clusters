@@ -1,5 +1,5 @@
 variable "name" {
-  type = string
+  type        = string
   description = "A prefix used for all resources in this project (incl. dashes). Required."
 
   validation {
@@ -9,23 +9,23 @@ variable "name" {
 }
 
 variable "suffix" {
-  type = string
+  type        = string
   description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."
-  default = ""
+  default     = ""
 }
 
 variable "location" {
-  type = string
+  type        = string
   description = "Location used for all resources in this project. Defaults to 'Central US'"
-  default = "Central US"
+  default     = "Central US"
 }
 
 variable "default_tags" {
   type = map(string)
   default = {
-    demo 	   = "true"
-    env 	 	 = "prod"
-    public   = "true"
+    demo   = "true"
+    env    = "prod"
+    public = "true"
   }
 }
 
@@ -33,6 +33,6 @@ variable "default_tags" {
 # -----------------
 
 locals {
-	name 				 = lower("${var.name}%{ if var.suffix != "" }-${var.suffix}%{ endif }")
+  name          = lower("${var.name}%{if var.suffix != ""}-${var.suffix}%{endif}")
   name_squished = replace(local.name, "-", "")
 }

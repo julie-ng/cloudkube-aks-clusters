@@ -5,16 +5,16 @@ locals {
 resource "azurerm_resource_group" "cluster" {
   name     = "${local.base_name}-rg"
   location = "Central US"
-  tags     = {
-    env 	 	 = "prod"
-    demo 	   = "true"
-    public   = "true"
+  tags = {
+    env    = "prod"
+    demo   = "true"
+    public = "true"
   }
 }
 
 output "summary" {
   value = {
-    note = "In Dev phase, prod cluster module does nothing, except create a resource group."
+    note                = "In Dev phase, prod cluster module does nothing, except create a resource group."
     resource_group_name = azurerm_resource_group.cluster.name
   }
 }
