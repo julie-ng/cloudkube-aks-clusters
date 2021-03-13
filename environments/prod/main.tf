@@ -1,3 +1,6 @@
+# In development phase for AKS cluster, this does _NOTHING_.
+# We'll create 2nd cluster when we know this works.
+
 locals {
   base_name = lower(var.name)
 }
