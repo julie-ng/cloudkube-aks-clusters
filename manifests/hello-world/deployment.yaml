@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: ingress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: julieio/hello:0.2.1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: HELLO_GREETING
+          value: "Hey"
+        - name: HELLO_NAME
+          value: "cloudkube.io"
+        - name: EARTH_COLOR
+          value: "#00c2ca"
+        - name: PORT
+          value: "3000"

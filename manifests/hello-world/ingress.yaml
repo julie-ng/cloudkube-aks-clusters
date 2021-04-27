@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: hello-world
+  namespace: ingress
+spec:
+  tls:
+  - hosts:
+      - 'dev.cloudkube.io'
+    secretName: ingress-tls-dev
+  rules:
+    - host: dev.cloudkube.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world
+                port:
+                  number: 80

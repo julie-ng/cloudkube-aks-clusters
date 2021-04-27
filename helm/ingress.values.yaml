@@ -1,0 +1,9 @@
+controller:
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+  replicaCount: 3
+  extraArgs:
+    default-ssl-certificate: "ingress/ingress-tls-csi"
+defaultBackend:
+  nodeSelector:
+    beta.kubernetes.io/os: linux
