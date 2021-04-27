@@ -5,14 +5,15 @@
 
 .terraform/
 *.conf
+*.conf.hcl
 *.tfplan
-*.tfstate
-*.tfstate.backup
+*.tfstate*
 *.lock.hcl
 
 certs/
 *.cert
 *.key
+*.pem
 *.pfx
 
 debug/*
