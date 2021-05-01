@@ -54,8 +54,8 @@ kubecontext:
 # All the commands
 # ----------------
 
-setup: create-namespaces install-azure-csi install-pod-identity install-ingress apply-ingress-mi
-uninstall: remove-ingress-mi uninstall-ingress uninstall-pod-identity uninstall-azure-csi delete-namespaces
+setup: create-namespaces install-azure-csi install-pod-identity install-ingress
+uninstall: uninstall-ingress uninstall-pod-identity uninstall-azure-csi delete-namespaces
 
 
 # Namespaces
