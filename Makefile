@@ -118,7 +118,7 @@ install-ingress:
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 	helm install ingress-basic ingress-nginx/ingress-nginx \
-		--values helm/ingress-csi.values.yaml \
+		--values helm/ingress.values.yaml \
 		--namespace ingress \
 		--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=$$AKS_RG_NAME \
 		--set controller.service.loadBalancerIP=$$INGRESS_PUBLIC_IP \
@@ -129,7 +129,7 @@ update-ingress:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm upgrade${RESET}"
 	helm upgrade ingress-basic ingress-nginx/ingress-nginx \
-		--values helm/ingress-csi.values.yaml \
+		--values helm/ingress.values.yaml \
 		--namespace ingress \
 		--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=$$AKS_RG_NAME \
 		--set controller.service.loadBalancerIP=$$INGRESS_PUBLIC_IP \

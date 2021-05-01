@@ -3,7 +3,36 @@ controller:
     beta.kubernetes.io/os: linux
   replicaCount: 3
   extraArgs:
-    default-ssl-certificate: "ingress/ingress-tls-csi"
+    default-ssl-certificate: "ingress/ingress-tls-dev-wildcard"
+  extraVolumes:
+      - name: cluster-kv-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "cluster-kv"
+      - name: ingress-tls-dev
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "ingress-tls-dev"
+      - name: ingress-tls-dev-wildcard
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "ingress-tls-dev-wildcard"
+  extraVolumeMounts:
+      - name: cluster-kv-inline
+        mountPath: "/mnt/cluster-kv"
+        readOnly: true
+      - name: ingress-tls-dev
+        mountPath: "/mnt/ingress-tls-dev"
+        readOnly: true
+      - name: ingress-tls-dev-wildcard
+        mountPath: "/mnt/ingress-tls-wildcard"
+        readOnly: true
 defaultBackend:
   nodeSelector:
     beta.kubernetes.io/os: linux
