@@ -16,7 +16,11 @@ An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps.
 - Prefer `-managed-rg` suffix over default `MC_` prefix for resource group containing managed cluster
 - Install addons using `Makefile` instead of lots of bash-fu
 
-# Setup
+# Setup 
+
+Up and running with just 5 commands
+
+## 1) Requirements
 
 ### Client Requirements
 
@@ -37,14 +41,15 @@ In order to deploy AKS clusters using IaC in this repository, you will need the 
 	apt-get install gettext-base
 	```
 
-### Required Pre-existing Azure Resources
+### Shared Infra Requirements
 
-The following resources should already exist before creating a cluster. They are not created here because they have a different lifecycle. For example we want IPs to persist for our DNS records.
+The following Azure resources are located in a separate Resource Group `cloudkube-shared-rg` and managed by the [`cloudkube-shared-infra`](https://github.com/julie-ng/cloudkube-shared-infra) repository:
 
-- Static IP for cluster
-- Key Vault with TLS certificates?
+- DNS Records
+- Key Vaults
+- Role Assignments to access TLS Certificates
 
-### Setup Cluster in 5 Easy Commands
+## 2) Deploy AKS Clusters
 
 Initialize and create a deployment plan
 
@@ -59,29 +64,30 @@ If you are satisified with the plan, deploy it
 terraform apply plan.tfplan
 ```
 
-Then set Kubernetes context to use `kubectl` 
+## 3) Setup Ingress
+
+To let `make` know, which AKS cluster we want to configure, we set the `CLOUDKUBE_TARGET` environment variable. Value should be `dev`, `staging` or `prod`.
+
+```bash
+export CLOUDKUBE_TARGET=dev
+```
+
+Finally finish cluster setup with
 
 ```bash
 make kubecontext
 make setup
 ```
 
+which will
+- install Azure CSI driver
+- install Azure Pod Identity 
+- setup namespaces
+- install nginx ingress controller
+- setup and configure "hello world" app
+- configure TLS by pull certificates from shared Key Vault
 
-#### Abbreviations
-
-- Managed Identity Controller (MIC)
-- Node Managed Identity (NMI) 
-
-
-----
-
-## Shared Resources
-
-The following Azure resources are located in a separate Resource Group `cloudkube-shared-rg` and managed by the [`cloudkube-shared-infra`](https://github.com/julie-ng/cloudkube-shared-infra) repository:
-
-- DNS Records
-- Key Vaults
-- Role Assignments to access TLS Certificates
+See [Makefile](./Makefile) for details.
 
 ## Naming Conventions
 
