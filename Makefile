@@ -21,6 +21,8 @@ YELLOW_TEXT  := $(shell tput -Txterm setaf 3)
 
 .EXPORT_ALL_VARIABLES:
 
+AKS_ENV_NAME=$(shell terraform output -json dev_summary | jq -r .env)
+AKS_ENV_HOSTNAME=$(shell terraform output -json dev_summary | jq -r .hostname)
 AKS_SUBSCRIPTION_ID=$(shell terraform output -json dev_summary | jq -r .azure_subscription.id)
 AKS_TENANT_ID=$(shell terraform output -json dev_summary | jq -r .azure_subscription.tenant_id)
 AKS_RG_NAME=$(shell terraform output -json dev_summary | jq -r .resource_group.name)
@@ -113,30 +115,27 @@ uninstall-pod-identity:
 # Ingress Controller
 # ------------------
 
-install-ingress:
+install-ingress: apply-ingress-mi-tls install-ingress-chart  apply-hello
+uninstall-ingress: remove-hello remove-ingress-mi-tls uninstall-ingress-chart
+
+install-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-	helm install ingress-basic ingress-nginx/ingress-nginx \
-		--values helm/ingress.values.yaml \
+	cat ./helm/ingress.values.yaml | envsubst | helm install ingress-basic ingress-nginx/ingress-nginx \
 		--namespace ingress \
-		--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=$$AKS_RG_NAME \
-		--set controller.service.loadBalancerIP=$$INGRESS_PUBLIC_IP \
-		--set controller.podLabels.aadpodidbinding=$$INGRESS_MI_NAME \
-		--timeout 2m30s
+		--timeout 2m30s \
+		-f -
 
-update-ingress:
+update-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm upgrade${RESET}"
-	helm upgrade ingress-basic ingress-nginx/ingress-nginx \
-		--values helm/ingress.values.yaml \
+	cat ./helm/ingress.values.yaml | envsubst | helm upgrade ingress-basic ingress-nginx/ingress-nginx \
 		--namespace ingress \
-		--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-resource-group"=$$AKS_RG_NAME \
-		--set controller.service.loadBalancerIP=$$INGRESS_PUBLIC_IP \
-		--set controller.podLabels.aadpodidbinding=$$INGRESS_MI_NAME \
-		--timeout 2m30s
+		--timeout 2m30s \
+		-f -
 
-uninstall-ingress:
+uninstall-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${RED_TEXT}helm uninstall${RESET}"
 	helm uninstall ingress-basic -n ingress
@@ -163,12 +162,16 @@ remove-ingress-mi-tls:
 apply-hello:
 	@echo ""
 	@echo "${PURPLE} Hello World ${RESET} ${YELLOW_TEXT}kubectl apply -f manifests/hello-world/…${RESET}"
-	kubectl apply -f manifests/hello-world/
+	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl apply -f -
+	@cat ./manifests/hello-world/ingress.yaml | envsubst | kubectl apply -f -
+	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl apply -f -
 
 remove-hello:
 	@echo ""
 	@echo "${PURPLE} Hello World ${RESET} ${RED_TEXT}kubectl delete -f manifests/hello-world/…${RESET}"
-	kubectl delete -f manifests/hello-world/
+	@cat ./manifests/hello-world/ingress.yaml | envsubst | kubectl delete -f -
+	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl delete -f -
+	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl delete -f -
 
 # Debugging
 # ---------

@@ -5,6 +5,8 @@ module "cluster" {
   source   = "./../../modules/aks-cluster"
   name     = var.name
   suffix   = var.suffix
+  env      = "dev"
+  hostname = "dev.cloudkube.io"
   location = "northeurope"
 
   default_tags = {

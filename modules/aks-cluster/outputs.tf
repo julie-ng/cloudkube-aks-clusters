@@ -1,5 +1,7 @@
 output "summary" {
   value = {
+    env = var.env
+    hostname = var.hostname
     azure_subscription = {
       id        = data.azurerm_client_config.current.subscription_id
       tenant_id = data.azurerm_client_config.current.tenant_id

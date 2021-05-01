@@ -22,7 +22,7 @@ spec:
         - name: HELLO_GREETING
           value: "Hey"
         - name: HELLO_NAME
-          value: "cloudkube.io"
+          value: ${AKS_ENV_HOSTNAME}
         - name: EARTH_COLOR
           value: "#00c2ca"
         - name: PORT

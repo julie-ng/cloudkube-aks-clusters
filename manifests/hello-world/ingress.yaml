@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - 'dev.cloudkube.io'
-    secretName: ingress-tls-dev
+      - '${AKS_ENV_HOSTNAME}'
+    secretName: ingress-tls-${AKS_ENV_NAME}
   rules:
-    - host: dev.cloudkube.io
+    - host: ${AKS_ENV_HOSTNAME}
       http:
         paths:
           - path: /

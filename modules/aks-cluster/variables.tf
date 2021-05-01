@@ -8,6 +8,20 @@ variable "name" {
   }
 }
 
+variable "env" {
+  type        = string
+  description = "String used in all the naming conventions for TLS, DNS, etc."
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.env)
+    error_message = "Must be one of 'dev', 'staging' or 'prod'."
+  }
+}
+
+variable "hostname" {
+  type = string
+  description = "Hostname for each environment, e.g. dev.cloudkube.io, required for ingress configuration."
+}
+
 variable "suffix" {
   type        = string
   description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."
