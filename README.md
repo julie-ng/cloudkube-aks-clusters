@@ -1,4 +1,4 @@
-# aks-demo-apps
+# cloudkube.io - AKS Clusters
 
 An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps.
 
@@ -16,7 +16,7 @@ An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps.
 - Prefer `-managed-rg` suffix over default `MC_` prefix for resource group containing managed cluster
 - Install addons using `Makefile` instead of lots of bash-fu
 
-## Setup
+# Setup
 
 ### Client Requirements
 
@@ -48,14 +48,14 @@ The following resources should already exist before creating a cluster. They are
 
 Initialize and create a deployment plan
 
-```
+```bash
 terraform init
 terraform plan -out plan.tfplan
 ```
 
 If you are satisified with the plan, deploy it
 
-```
+```bash
 terraform apply plan.tfplan
 ```
 
@@ -66,25 +66,63 @@ make kubecontext
 make setup
 ```
 
-### Post Cluster Setup - Deploy Hello World
-
-Deploy a hello world app to [http://dev.cloudkube.io](http://dev.cloudkube.io)
-
-```
-kubectl apply -f manifests/hello-world/
-```
-
-
-## Debugging
-
-### AAD Pod Identity MIC Logs
-
-```
-kubectl logs --follow -l "app.kubernetes.io/component=mic" --since=1h -n azure-pod-identity
-```
 
 #### Abbreviations
 
 - Managed Identity Controller (MIC)
 - Node Managed Identity (NMI) 
 
+
+----
+
+## Shared Resources
+
+The following Azure resources are located in a separate Resource Group `cloudkube-shared-rg` and managed by the [`cloudkube-shared-infra`](https://github.com/julie-ng/cloudkube-shared-infra) repository:
+
+- DNS Records
+- Key Vaults
+- Role Assignments to access TLS Certificates
+
+## Naming Conventions
+
+### Environments 
+
+Resources names will include one of
+
+- `dev`
+- `staging`
+- `prod`
+
+### Hosts
+
+- [dev.cloudkube.io](https://dev.cloudkube.io)
+- [staging.cloudkube.io](https://staging.cloudkube.io)
+- [cloudkube.io](https://cloudkube.io)
+
+# References
+
+Official Documentation
+
+### Azure
+
+- [Azure Docs - Key Vault Roles](https://docs.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli)
+- [AKS Docs - Summary of Managed Identities](https://docs.microsoft.com/en-us/azure/aks/use-managed-identity#summary-of-managed-identities)
+
+### AAD Pod Identity
+
+- [Getting Started > Role Assignments](https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/)
+- [Helm Chart on Artifact Hub](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx)
+- [Helm Chart Configuration on GitHub](https://github.com/Azure/aad-pod-identity/tree/master/charts/aad-pod-identity#configuration)
+
+
+### Azure CSI
+
+- Note: Secret is not created until ingress controller is deployed.
+	>  A Kubernetes secret ingress-tls-csi will be created by the CSI driver as a result of ingress controller creation.
+
+### Ingress Controller (nginx)
+
+- [Helm Chart](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx) on Artifact Hub
+- [Helm Chart Source](https://github.com/kubernetes/ingress-nginx) on GitHub.com
+  - [values.yaml](https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml)
+- [Officla Docs/Website](https://kubernetes.github.io/ingress-nginx)

@@ -81,33 +81,10 @@ spec:
 
 The folder with the policies cannot be named `gatekeeper` due to [hashicorp/terraform-provider-helm/issues/509](https://github.com/hashicorp/terraform-provider-helm/issues/509). Mine was named `gatekeeper-policies`.
 
+# Debugging
 
-## References
+### AAD Pod Identity MIC Logs
 
-Official Documentation
-
-### Azure
-
-- [Azure Docs - Key Vault Roles](https://docs.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli)
-- [AKS Docs - Summary of Managed Identities](https://docs.microsoft.com/en-us/azure/aks/use-managed-identity#summary-of-managed-identities)
-
-### AAD Pod Identity
-
-- [Getting Started > Role Assignments](https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/)
-- [Helm Chart on Artifact Hub](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx)
-- [Helm Chart Configuration on GitHub](https://github.com/Azure/aad-pod-identity/tree/master/charts/aad-pod-identity#configuration)
-
-
-### Azure CSI
-
-- Secret is not creatd until ingress controller is deployed.
-
->  A Kubernetes secret ingress-tls-csi will be created by the CSI driver as a result of ingress controller creation.
-
-
-### ingress/nginx controller
-
-- [Helm Chart](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx) on Artifact Hub
-- [Helm Chart Source](https://github.com/kubernetes/ingress-nginx) on GitHub.com
-  - [values.yaml](https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml)
-- [Officla Docs/Website](https://kubernetes.github.io/ingress-nginx)
+```
+kubectl logs --follow -l "app.kubernetes.io/component=mic" --since=1h -n azure-pod-identity
+```
