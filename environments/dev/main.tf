@@ -53,7 +53,7 @@ module "cluster" {
 
   # TLS from shared infra rg
   tls_key_vault = {
-    name           = "cloudkube-kv"
+    name           = "cloudkube-dev-kv"
     cert_name      = "wildcard-dev-cloudkube"
     resource_group = "cloudkube-shared-rg"
   }

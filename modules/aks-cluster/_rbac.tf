@@ -49,17 +49,3 @@ resource "azurerm_role_assignment" "cluster_kv_ingress_mi" {
   principal_id         = azurerm_user_assigned_identity.ingress_pod.principal_id
   scope                = azurerm_key_vault.cluster_kv.id
 }
-
-# Try larger scope for ingress to see if it works
-resource "azurerm_role_assignment" "tls_kv_ingress_mi" {
-  role_definition_name = "Key Vault Secrets User"
-  principal_id         = azurerm_user_assigned_identity.ingress_pod.principal_id
-  scope                = data.azurerm_key_vault.shared_kv.id
-}
-
-# Doesn't seem to work. "KV Secrets User" does not show in Portal UI for certificate, only "Reader".
-# resource "azurerm_role_assignment" "tls_kv_ingress_mi" {
-#   role_definition_name = "Reader"
-#   principal_id         = azurerm_user_assigned_identity.ingress_pod.principal_id
-#   scope                = "${data.azurerm_key_vault.shared_kv.id}/certificates/${var.tls_key_vault.cert_name}" # only 1 certificate
-# }
