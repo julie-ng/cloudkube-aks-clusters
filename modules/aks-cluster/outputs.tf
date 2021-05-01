@@ -33,7 +33,6 @@ output "summary" {
       id                  = data.azurerm_key_vault.shared_kv.id
       name                = data.azurerm_key_vault.shared_kv.name
       resource_group_name = data.azurerm_key_vault.shared_kv.resource_group_name
-      cert_name           = var.tls_key_vault.cert_name
     }
     role_assignments = {
       kubelet_rbac = {
@@ -44,10 +43,6 @@ output "summary" {
           scope                = azurerm_role_assignment.cluster_kv_ingress_mi.scope
           role_definition_name = azurerm_role_assignment.cluster_kv_ingress_mi.role_definition_name
         }
-        # tls_kv = {
-        #   scope                = azurerm_role_assignment.tls_kv_ingress_mi.scope
-        #   role_definition_name = azurerm_role_assignment.tls_kv_ingress_mi.role_definition_name
-        # }
       }
     }
     managed_identities = {

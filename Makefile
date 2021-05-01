@@ -32,8 +32,6 @@ INGRESS_MI_NAME=$(shell terraform output -json dev_summary | jq -r .aks_cluster.
 INGRESS_MI_CLIENT_ID=$(shell terraform output -json dev_summary | jq -r .aks_cluster.ingress_mi.client_id)
 INGRESS_MI_RESOURCE_ID=$(shell terraform output -json dev_summary | jq -r .aks_cluster.ingress_mi.id)
 INGRESS_PUBLIC_IP=$(shell terraform output -json dev_summary | jq -r .aks_cluster.public_ip)
-INGRESS_TLS_KEY_VAULT_NAME=$(shell terraform output -json dev_summary | jq -r .tls_key_vault.name)
-INGRESS_TLS_CERT_NAME=$(shell terraform output -json dev_summary | jq -r .tls_key_vault.cert_name)
 CLUSTER_KV_NAME=$(shell terraform output -json dev_summary | jq -r .key_vault.name)
 POD_IDENTITY_CHART_VERSION=4.0.0
 

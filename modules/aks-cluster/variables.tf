@@ -150,7 +150,3 @@ variable "key_vault_soft_delete_retention_days" {
   type    = number
   default = 7 # minimum
 }
-
-# Static IP (shared-rg)
-
-variable "cluster_ingress_ip" {}

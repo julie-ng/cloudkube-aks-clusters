@@ -45,16 +45,9 @@ module "cluster" {
   aks_dns_service_cidr        = "10.0.1.10"
   aks_docker_bridge_cidr      = "170.10.0.1/16"
 
-  # Reference existing static IP
-  cluster_ingress_ip = {
-    name           = "cloudkube-aks-dev-ip"
-    resource_group = "cloudkube-shared-rg"
-  }
-
   # TLS from shared infra rg
   tls_key_vault = {
     name           = "cloudkube-dev-kv"
-    cert_name      = "wildcard-dev-cloudkube"
     resource_group = "cloudkube-shared-rg"
   }
 }
