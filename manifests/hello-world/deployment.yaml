@@ -20,7 +20,7 @@ spec:
         - containerPort: 3000
         env:
         - name: HELLO_GREETING
-          value: "Hey"
+          value: "Hi"
         - name: HELLO_NAME
           value: ${AKS_ENV_HOSTNAME}
         - name: EARTH_COLOR
