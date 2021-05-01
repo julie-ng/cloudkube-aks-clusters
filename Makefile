@@ -21,19 +21,20 @@ YELLOW_TEXT  := $(shell tput -Txterm setaf 3)
 
 .EXPORT_ALL_VARIABLES:
 
-AKS_ENV_NAME=$(shell terraform output -json dev_summary | jq -r .env)
-AKS_ENV_HOSTNAME=$(shell terraform output -json dev_summary | jq -r .hostname)
-AKS_SUBSCRIPTION_ID=$(shell terraform output -json dev_summary | jq -r .azure_subscription.id)
-AKS_TENANT_ID=$(shell terraform output -json dev_summary | jq -r .azure_subscription.tenant_id)
-AKS_RG_NAME=$(shell terraform output -json dev_summary | jq -r .resource_group.name)
-AKS_NODE_RG_NAME=$(shell terraform output -json dev_summary | jq -r .aks_cluster.node_rg)
-AKS_CLUSTER_NAME=$(shell terraform output -json dev_summary | jq -r .aks_cluster.name)
-INGRESS_MI_NAME=$(shell terraform output -json dev_summary | jq -r .aks_cluster.ingress_mi.name)
-INGRESS_MI_CLIENT_ID=$(shell terraform output -json dev_summary | jq -r .aks_cluster.ingress_mi.client_id)
-INGRESS_MI_RESOURCE_ID=$(shell terraform output -json dev_summary | jq -r .aks_cluster.ingress_mi.id)
-INGRESS_PUBLIC_IP=$(shell terraform output -json dev_summary | jq -r .aks_cluster.public_ip)
-CLUSTER_KV_NAME=$(shell terraform output -json dev_summary | jq -r .key_vault.name)
+AKS_ENV_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".env)
+AKS_ENV_HOSTNAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".hostname)
+AKS_SUBSCRIPTION_ID=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".azure_subscription.id)
+AKS_TENANT_ID=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".azure_subscription.tenant_id)
+AKS_RG_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".resource_group.name)
+AKS_NODE_RG_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.node_rg)
+AKS_CLUSTER_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.name)
+INGRESS_MI_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.ingress_mi.name)
+INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.ingress_mi.client_id)
+INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.ingress_mi.id)
+INGRESS_PUBLIC_IP=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".aks_cluster.public_ip)
+CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r ."$$CLOUDKUBE_TARGET".key_vault.name)
 POD_IDENTITY_CHART_VERSION=4.0.0
+
 
 # ========= #
 #  Scripts  #

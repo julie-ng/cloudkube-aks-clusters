@@ -32,10 +32,8 @@ module "dev" {
 # Outputs
 # -------
 
-output "dev_summary" {
-  value = module.dev.summary
+output "summary" {
+  value = {
+    dev = module.dev.summary
+  }
 }
-
-# output "prod_summary" {
-#   value = module.demos_prod.summary
-# }
