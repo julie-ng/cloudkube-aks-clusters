@@ -132,3 +132,10 @@ Official Documentation
 - [Helm Chart Source](https://github.com/kubernetes/ingress-nginx) on GitHub.com
   - [values.yaml](https://github.com/kubernetes/ingress-nginx/blob/master/charts/ingress-nginx/values.yaml)
 - [Officla Docs/Website](https://kubernetes.github.io/ingress-nginx)
+
+### Terraform
+
+- [Terraform Docs - Organizing Multiple Environments for a Configuration](https://www.terraform.io/docs/cloud/workspaces/configurations.html#organizing-multiple-environments-for-a-configuration)
+- [Terraform Docs - When to use Multiple Workspaces](https://www.terraform.io/docs/language/state/workspaces.html#when-to-use-multiple-workspaces)
+- [Terraform Docs - Variable Definition Precedence](https://www.terraform.io/docs/language/values/variables.html#variable-definition-precedence)
+  
