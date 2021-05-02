@@ -51,3 +51,10 @@ module "cluster" {
     resource_group = "cloudkube-shared-rg"
   }
 }
+
+# Outputs
+# -------
+
+output "summary" {
+  value = module.cluster.summary
+}
