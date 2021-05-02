@@ -13,9 +13,10 @@ resource "azurerm_resource_group" "cluster_rg" {
 # ================
 
 locals {
-  name          = lower(var.name)
-  name_suffixed = lower("${var.name}%{if var.suffix != ""}-${var.suffix}%{endif}")
-  name_squished = replace(local.name_suffixed, "-", "")
+  name           = lower(var.name)
+  name_suffixed  = lower("${var.name}%{if var.suffix != ""}-${var.suffix}%{endif}")
+  name_squished  = replace(local.name_suffixed, "-", "")
+  aks_dns_prefix = var.aks_dns_prefix == "" ? var.name : var.aks_dns_prefix
 }
 
 # ===============

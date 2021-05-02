@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = azurerm_resource_group.cluster_rg.location
   resource_group_name = azurerm_resource_group.cluster_rg.name
   node_resource_group = "${local.name_suffixed}-managed-rg"
-  dns_prefix          = var.aks_dns_prefix
+  dns_prefix          = local.aks_dns_prefix
   tags                = var.default_tags
 
   default_node_pool {

@@ -1,11 +1,17 @@
 variable "name" {
   type        = string
-  description = "A suffix used for all resources in this project (incl. dashes). Required."
+  description = "A base name used for all resources in this project (incl. dashes). Required."
 
   validation {
     condition     = length(var.name) < 20
     error_message = "Name must be less than 20 characters."
   }
+}
+
+variable "suffix" {
+  type        = string
+  description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."
+  default     = ""
 }
 
 variable "env" {
@@ -20,12 +26,6 @@ variable "env" {
 variable "hostname" {
   type = string
   description = "Hostname for each environment, e.g. dev.cloudkube.io, required for ingress configuration."
-}
-
-variable "suffix" {
-  type        = string
-  description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."
-  default     = ""
 }
 
 variable "location" {
@@ -59,7 +59,8 @@ variable "aks_subnet_address_prefixes" {
 # ------------------
 
 variable "aks_dns_prefix" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "aks_network_plugin" {

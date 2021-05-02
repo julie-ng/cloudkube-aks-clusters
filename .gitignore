@@ -6,9 +6,11 @@
 .terraform/
 *.conf
 *.conf.hcl
+*.state.hcl
 *.tfplan
 *.tfstate*
 *.lock.hcl
+*.backend.hcl
 
 certs/
 *.cert

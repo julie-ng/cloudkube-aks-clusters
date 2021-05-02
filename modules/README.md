@@ -4,10 +4,10 @@ This module creates the AKS cluster and is used to bring up multiple environment
 
 ### How to use
 
-For a full examples, see [/environments/dev/main.tf](./../environments/dev/main.tf)
+For a full examples, see [main.tf](./../main.tf)
 
 ```hcl
-module "demos_cluster" {
+module "cluster" {
   source               = "./modules/aks-cluster"
   name                 = "my-cluster"
   suffix               = "123"
