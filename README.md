@@ -1,8 +1,14 @@
 # cloudkube.io - AKS Clusters
 
-An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps.
+An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps, leveraging `Makefile` instead of lots of bash-fu to install AKS add-ons.
 
-### Features
+## Architecture
+
+The following diagram illustrates the Azure solution architecture for _each cluster_, e.g. dev, staging and prod.
+
+![Cloudkube.io AKS Cluster](./images/architecture.png)
+
+### Architecture Decisions
 
 - Virtual Network integration
 - Azure CNI Networking
@@ -11,12 +17,16 @@ An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps.
 - [Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/) 
   - Assigns Azure Active Directory Identities to Ingress Controller pods to fetch TLS certificates from an [externally managed Key Vault](https://github.com/julie-ng/cloudkube-shared-infra). These Key Vaults are in a different IaC repo and resource group because they have a different resource lifecycle.
   - Includes [required role assignments](./modules/README.md#aad-pod-identity) `Virtual Machine Contributor` and `Managed Identity Operator`
-
-### Opinionated Customizations
-
 - Prefer `-managed-rg` suffix over default `MC_` prefix for resource group containing managed cluster
-- Install addons using `Makefile` instead of lots of bash-fu
 
+### Managed Identities - Why You Need 3
+
+| Managed Identity | Security Principal | Details |
+|:--|:--|:--|
+| `cluster-mi` | AKS Service, IaaS | Belongs to cluster-rg because its lifecycle is outside of the managed cluster (`azure-managed-rg`), which can be torn down and re-deployed, e.g. to access new AKS features. | 
+| `agentpool-mi` | Virtual Machine, IaaS | Used by Azure managed Infra to pull images from Container Registry to deploy pods |
+| `ingres-pod-mi` | Ingress, Workload | An extra identity by a customer workload (ingress) to get TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
+  
 ### Environments 
 
 Resources names will include one of
