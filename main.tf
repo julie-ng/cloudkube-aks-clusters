@@ -16,13 +16,17 @@ resource "random_string" "suffix" {
   number      = true
 }
 
+locals {
+  suffix = var.suffix == "" ? random_string.suffix.result : var.suffix
+}
+
 # =============
 #  AKS Cluster
 # =============
 
 module "cluster" {
   source   = "./modules/aks-cluster"
-  suffix   = random_string.suffix.result
+  suffix   = local.suffix
   name     = var.name
   env      = var.env
   hostname = var.hostname
