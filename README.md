@@ -21,12 +21,16 @@ The following diagram illustrates the Azure solution architecture for _each clus
 
 ### Managed Identities - Why You Need 3
 
+Our clusters leverage bring your own identity for Azure Kubernetes Service:
+
 | Managed Identity | Security Principal | Details |
 |:--|:--|:--|
 | `cluster-mi` | AKS Service, IaaS | Belongs to cluster-rg because its lifecycle is outside of the managed cluster (`azure-managed-rg`), which can be torn down and re-deployed, e.g. to access new AKS features. | 
 | `agentpool-mi` | Virtual Machine, IaaS | Used by Azure managed Infra to pull images from Container Registry to deploy pods. |
 | `ingres-pod-mi` | Ingress, Workload | An extra identity by a customer workload (ingress) to get TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
   
+For more about AKS and Managed Identities, see [AKS Docs - Use managed identities in Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/use-managed-identity).
+
 ### Environments 
 
 Resources names will include one of
@@ -145,8 +149,8 @@ Official Documentation
 
 ### Azure
 
-- [Azure Key Vault - Roles](https://docs.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli)
-- [Azure Kubernetes Service - Summary of Managed Identities](https://docs.microsoft.com/en-us/azure/aks/use-managed-identity#summary-of-managed-identities)
+- [Azure Key Vault - Roles](https://docs.microsoft.com/azure/key-vault/general/rbac-guide?tabs=azure-cli)
+- [Azure Kubernetes Service - Summary of Managed Identities](https://docs.microsoft.com/azure/aks/use-managed-identity#summary-of-managed-identities)
 - **[Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/)**
 	- [Getting Started > Role Assignments](https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/)
 	- [Helm Chart on Artifact Hub](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx)
