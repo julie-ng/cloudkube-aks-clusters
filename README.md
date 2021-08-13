@@ -24,7 +24,7 @@ The following diagram illustrates the Azure solution architecture for _each clus
 | Managed Identity | Security Principal | Details |
 |:--|:--|:--|
 | `cluster-mi` | AKS Service, IaaS | Belongs to cluster-rg because its lifecycle is outside of the managed cluster (`azure-managed-rg`), which can be torn down and re-deployed, e.g. to access new AKS features. | 
-| `agentpool-mi` | Virtual Machine, IaaS | Used by Azure managed Infra to pull images from Container Registry to deploy pods |
+| `agentpool-mi` | Virtual Machine, IaaS | Used by Azure managed Infra to pull images from Container Registry to deploy pods. |
 | `ingres-pod-mi` | Ingress, Workload | An extra identity by a customer workload (ingress) to get TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
   
 ### Environments 
