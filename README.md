@@ -137,6 +137,13 @@ which will
 
 See [Makefile](./Makefile) for details.
 
+# Cluster Upgrades
+
+When upgrading the Kubernetes version, it seems the following happened:
+- cluster was _not_ updated in place but rather destroyed
+- re-setup with `make setup` was required.
+- the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
+
 # References
 
 Official Documentation
