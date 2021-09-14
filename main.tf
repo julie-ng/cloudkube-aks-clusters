@@ -1,11 +1,3 @@
-# =======
-#  Setup
-# =======
-
-terraform {
-  backend "azurerm" {} # see environments/backend.hcl.sample
-}
-
 # Suffix to avoid errors on Azure resources that require globally unique names.
 resource "random_string" "suffix" {
   length      = 4
@@ -64,18 +56,10 @@ module "cluster" {
   aks_subnet_address_prefixes = var.aks_subnet_address_prefixes
 
   # Required VNet integration config
-  aks_service_cidr            = var.aks_service_cidr
-  aks_dns_service_cidr        = var.aks_dns_service_cidr
-  aks_docker_bridge_cidr      = var.aks_docker_bridge_cidr
+  aks_service_cidr       = var.aks_service_cidr
+  aks_dns_service_cidr   = var.aks_dns_service_cidr
+  aks_docker_bridge_cidr = var.aks_docker_bridge_cidr
 
   # TLS from shared infra rg
   tls_key_vault = var.tls_key_vault
-}
-
-# =========
-#  Outputs
-# =========
-
-output "summary" {
-  value = module.cluster.summary
 }
