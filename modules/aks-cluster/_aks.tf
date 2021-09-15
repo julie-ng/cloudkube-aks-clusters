@@ -52,6 +52,14 @@ resource "azurerm_kubernetes_cluster" "aks" {
     #   log_analytics_workspace_id = azurerm_log_analytics_workspace.cluster.id
     # }
   }
+
+  role_based_access_control {
+    enabled = true
+    azure_active_directory {
+      managed            = true
+      azure_rbac_enabled = true
+    }
+  }
 }
 
 

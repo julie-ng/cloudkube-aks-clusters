@@ -139,10 +139,12 @@ See [Makefile](./Makefile) for details.
 
 # Cluster Upgrades
 
-When upgrading the Kubernetes version, it seems the following happened:
-- cluster was _not_ updated in place but rather destroyed
-- re-setup with `make setup` was required.
-- the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
+If an upgrade (e.g. enable Azure RBAC) requires Terraform to destroy and re-create the cluster, then additional steps are required after `terraform apply`
+
+- re-setup with `make setup` was required
+- re-setup access to TLS certificates for ingress pods
+  - the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
+  - then finish setup by re-running failed step `make apply-hello`
 
 # References
 
