@@ -53,6 +53,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     # }
   }
 
+  local_account_disabled = var.aks_disable_local_accounts
+
   role_based_access_control {
     enabled = true
     azure_active_directory {

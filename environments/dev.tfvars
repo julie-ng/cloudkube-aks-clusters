@@ -3,6 +3,7 @@ env                         = "dev"
 hostname                    = "dev.cloudkube.io"
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
+aks_disable_local_accounts  = true
 
 # Required VNet integration config
 aks_service_cidr            = "10.0.1.0/24"

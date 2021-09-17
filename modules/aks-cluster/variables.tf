@@ -127,6 +127,11 @@ variable "aks_dns_service_cidr" {
   description = "Required for VNet integration"
 }
 
+variable "aks_disable_local_accounts" {
+  type = string
+  description = "https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview"
+}
+
 # Key Vault
 # ---------
 

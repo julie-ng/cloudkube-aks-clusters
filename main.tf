@@ -43,9 +43,10 @@ module "cluster" {
   azure_container_registry_admin_enabled = var.azure_container_registry_admin_enabled
 
   # Accounts
-  node_admin_username       = var.node_admin_username
-  node_admin_ssh_public_key = file(var.node_admin_ssh_public_key)
-  node_identity_type        = var.node_identity_type
+  node_admin_username        = var.node_admin_username
+  node_admin_ssh_public_key  = file(var.node_admin_ssh_public_key)
+  node_identity_type         = var.node_identity_type
+  aks_disable_local_accounts = var.aks_disable_local_accounts
 
   # Networking
   # aks_dns_prefix        = var.aks_dns_prefix

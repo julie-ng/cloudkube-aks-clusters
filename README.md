@@ -49,7 +49,7 @@ Resources names will include one of
 
 Using Terraform and make commands, you will have an AKS cluster with all the Azure CSI and Pod Identity Add-Ons up and running with just 5 commands.
 
-## 1) Requirements
+## 1A) Requirements
 
 ### CLI Tools (Required)
 
@@ -89,6 +89,47 @@ And to comply with governance best practices, we have 2 different storage accoun
 [<img src="./images/tf-state-rbac.svg" width="460" alt="Use different Storage Accounts for RBAC on Terraform State">](./backends/README.md)
 
 _Diagram: use different Storage Accounts for RBAC on Terraform State. See [backends/README.md](./backends/README.md) for details._
+
+## 1B) Required - Disable Local Accounts Preview Feature
+
+These clusters leverage an Azure Preview feature to [disable local accounts](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview), the local "admin" accounts, which are effectively back door accounts.
+
+
+[Read full instructions on Azure Docs](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview)
+
+
+To enable this, first register for the preview feature
+
+```
+az feature register --namespace "Microsoft.ContainerService" --name "DisableLocalAccountsPreview"
+```
+
+Check if it's finished
+
+```
+az feature list -o table --query "[?contains(name, 'Microsoft.ContainerService/DisableLocalAccountsPreview')].{Name:name,State:properties.state}"
+```
+
+If it's finished, it says **regsitered**
+
+```
+Name                                                    State
+------------------------------------------------------  ----------
+Microsoft.ContainerService/DisableLocalAccountsPreview  Registered
+```
+
+then you can finally enable the feature
+
+```
+az provider register --namespace Microsoft.ContainerService
+```
+
+The Terraform script then uses the [`local_account_disabled`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#local_account_disabled) argument in the [`azurerm_kubernetes_cluster`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#local_account_disabled) resource.
+
+
+### Want to keep local accounts?
+
+Just comment out the `local_account_disabled` argument in [`./modules/aks-cluster/_aks.tf` file](./modules/aks-cluster/_aks.tf)
 
 ## 2) Deploy AKS Cluster
 

@@ -27,6 +27,7 @@ variable "node_admin_ssh_public_key" {}
 variable "aks_service_cidr" {}
 variable "aks_docker_bridge_cidr" {}
 variable "aks_dns_service_cidr" {}
+variable "aks_disable_local_accounts" {}
 
 # ACR
 variable "azure_container_registry_sku" {}
