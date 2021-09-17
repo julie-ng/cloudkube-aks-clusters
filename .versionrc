@@ -1,0 +1,14 @@
+{
+  "bumpFiles": [
+    {
+      "filename": "manifest.json",
+      "type": "json"
+    }
+  ],
+  "packageFiles": [
+    {
+      "filename": "manifest.json",
+      "type": "json"
+    }
+  ]
+}

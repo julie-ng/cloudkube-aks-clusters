@@ -187,6 +187,18 @@ If an upgrade (e.g. enable Azure RBAC) requires Terraform to destroy and re-crea
   - the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
   - then finish setup by re-running failed step `make apply-hello`
 
+# Misc.
+
+### Update Change log
+
+To update [CHANGELOG.md](./CHANGELOG.md) with [standard-version](https://github.com/conventional-changelog/standard-version) run
+
+```bash
+npx standard-version --skip.commit --skip.tag --packageFiles manifest.json --bumpFiles manifest.json
+```
+
+then adjust as needed by hand and commit.
+
 # References
 
 Official Documentation
