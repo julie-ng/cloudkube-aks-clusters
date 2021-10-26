@@ -1,11 +1,11 @@
-suffix 	 = ""
+suffix   = ""
 location = "northeurope"
 
 default_tags = {
-	env    = "dev"
-	iac    = "terraform"
-	demo   = "true"
-	public = "true"
+  env    = "dev"
+  iac    = "terraform"
+  demo   = "true"
+  public = "true"
 }
 
 # AKS Config

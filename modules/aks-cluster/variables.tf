@@ -24,7 +24,7 @@ variable "env" {
 }
 
 variable "hostname" {
-  type = string
+  type        = string
   description = "Hostname for each environment, e.g. dev.cloudkube.io, required for ingress configuration."
 }
 
@@ -128,7 +128,7 @@ variable "aks_dns_service_cidr" {
 }
 
 variable "aks_disable_local_accounts" {
-  type = string
+  type        = string
   description = "https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview"
 }
 
