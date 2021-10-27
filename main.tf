@@ -63,4 +63,8 @@ module "cluster" {
 
   # TLS from shared infra rg
   tls_key_vault = var.tls_key_vault
+
+  # Log Analytics
+  log_analytics_workspace_name = var.log_analytics_workspace_name
+  log_analytics_workspace_rg   = var.log_analytics_workspace_rg
 }

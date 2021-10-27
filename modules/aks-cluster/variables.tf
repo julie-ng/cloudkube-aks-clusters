@@ -156,3 +156,7 @@ variable "key_vault_soft_delete_retention_days" {
   type    = number
   default = 7 # minimum
 }
+
+# Log Analytics
+variable "log_analytics_workspace_name" {}
+variable "log_analytics_workspace_rg" {}

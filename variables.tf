@@ -35,3 +35,7 @@ variable "azure_container_registry_admin_enabled" {}
 
 # TLS Certs
 variable "tls_key_vault" {}
+
+# Log Analytics
+variable "log_analytics_workspace_name" {}
+variable "log_analytics_workspace_rg" {}

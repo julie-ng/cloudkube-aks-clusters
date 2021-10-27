@@ -47,10 +47,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
       enabled = false
     }
 
-    # oms_agent {
-    #   enabled = true
-    #   log_analytics_workspace_id = azurerm_log_analytics_workspace.cluster.id
-    # }
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cloudkube.id
+    }
   }
 
   local_account_disabled = var.aks_disable_local_accounts
@@ -64,6 +64,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 }
 
+# Log Analytics Workspace
+data "azurerm_log_analytics_workspace" "cloudkube" {
+  name                = var.log_analytics_workspace_name
+  resource_group_name = var.log_analytics_workspace_rg
+}
 
 # AKS Nodes RG
 # ------------
