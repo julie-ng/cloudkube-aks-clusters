@@ -10,10 +10,17 @@ default_tags = {
 
 # AKS Config
 kubernetes_version        = "1.19.7"
-vm_size                   = "Standard_DS2_v2"
 nodes_enable_auto_scaling = true
-nodes_min_count           = 1
-nodes_max_count           = 2
+
+# System Node Pool
+system_vm_size         = "Standard_DS2_v2"
+system_nodes_min_count = 1
+system_nodes_max_count = 2
+
+# User Node Pool
+user_vm_size         = "Standard_DS2_v2"
+user_nodes_min_count = 1
+user_nodes_max_count = 2
 
 # ACR
 azure_container_registry_sku           = "Basic"

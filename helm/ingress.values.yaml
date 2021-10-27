@@ -42,3 +42,4 @@ controller:
 defaultBackend:
   nodeSelector:
     beta.kubernetes.io/os: linux
+    workloadType: user # b/c omsagent hogs system node

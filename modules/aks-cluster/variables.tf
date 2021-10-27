@@ -79,7 +79,11 @@ variable "kubernetes_version" {
   type = string
 }
 
-variable "vm_size" {
+variable "system_vm_size" {
+  type = string
+}
+
+variable "user_vm_size" {
   type = string
 }
 
@@ -87,11 +91,19 @@ variable "nodes_enable_auto_scaling" {
   type = bool
 }
 
-variable "nodes_min_count" {
+variable "system_nodes_min_count" {
   type = number
 }
 
-variable "nodes_max_count" {
+variable "system_nodes_max_count" {
+  type = number
+}
+
+variable "user_nodes_min_count" {
+  type = number
+}
+
+variable "user_nodes_max_count" {
   type = number
 }
 

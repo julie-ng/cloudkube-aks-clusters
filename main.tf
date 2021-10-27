@@ -33,10 +33,13 @@ module "cluster" {
 
   # AKS Config
   kubernetes_version        = var.kubernetes_version
-  vm_size                   = var.vm_size
+  system_vm_size            = var.system_vm_size
+  user_vm_size              = var.user_vm_size
   nodes_enable_auto_scaling = var.nodes_enable_auto_scaling
-  nodes_min_count           = var.nodes_min_count
-  nodes_max_count           = var.nodes_max_count
+  system_nodes_min_count    = var.system_nodes_min_count
+  system_nodes_max_count    = var.system_nodes_max_count
+  user_nodes_min_count      = var.user_nodes_min_count
+  user_nodes_max_count      = var.user_nodes_max_count
 
   # ACR
   azure_container_registry_sku           = var.azure_container_registry_sku

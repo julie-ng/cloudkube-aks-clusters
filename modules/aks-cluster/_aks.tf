@@ -12,12 +12,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
   tags                = var.default_tags
 
   default_node_pool {
-    name                = "default"
-    vm_size             = var.vm_size
+    name                = "system"
+    vm_size             = var.system_vm_size
     vnet_subnet_id      = azurerm_subnet.aks.id
     enable_auto_scaling = var.nodes_enable_auto_scaling
-    min_count           = var.nodes_min_count
-    max_count           = var.nodes_max_count
+    min_count           = var.system_nodes_min_count
+    max_count           = var.system_nodes_max_count
+    node_labels = {
+      workloadType = "system"
+    }
   }
 
   network_profile {
@@ -64,6 +67,25 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 }
 
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  name                  = "user"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  vm_size               = var.user_vm_size
+  node_count            = 1
+
+  enable_auto_scaling = true
+  min_count           = var.user_nodes_min_count
+  max_count           = var.user_nodes_max_count
+  tags                = var.default_tags
+
+  node_labels = {
+    workloadType = "user"
+  }
+}
+
+# Data Sources
+# ------------
+
 # Log Analytics Workspace
 data "azurerm_log_analytics_workspace" "cloudkube" {
   name                = var.log_analytics_workspace_name
@@ -71,8 +93,6 @@ data "azurerm_log_analytics_workspace" "cloudkube" {
 }
 
 # AKS Nodes RG
-# ------------
-
 data "azurerm_resource_group" "aks_managed" {
   name = "${local.name_suffixed}-managed-rg"
   depends_on = [

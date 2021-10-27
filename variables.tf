@@ -17,10 +17,15 @@ variable "aks_load_balancer_sku" {}
 
 # AKS
 variable "kubernetes_version" {}
-variable "vm_size" {}
+variable "system_vm_size" {}
+variable "user_vm_size" {}
+
 variable "nodes_enable_auto_scaling" {}
-variable "nodes_min_count" {}
-variable "nodes_max_count" {}
+variable "system_nodes_min_count" {}
+variable "system_nodes_max_count" {}
+variable "user_nodes_min_count" {}
+variable "user_nodes_max_count" {}
+
 variable "node_identity_type" {}
 variable "node_admin_username" {}
 variable "node_admin_ssh_public_key" {}

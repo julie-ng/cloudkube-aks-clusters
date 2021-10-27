@@ -13,6 +13,8 @@ spec:
       labels:
         app: hello-world
     spec:
+      nodeSelector:
+        workloadType: user
       containers:
       - name: hello-world
         image: julieio/hello:0.2.1
