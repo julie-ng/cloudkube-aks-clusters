@@ -24,6 +24,6 @@ data "azurerm_user_assigned_identity" "kubelet" {
 
 resource "azurerm_user_assigned_identity" "ingress_pod" {
   name                = "${local.name}-ingress-pod-mi"
-  location            = data.azurerm_resource_group.aks_managed.location
-  resource_group_name = data.azurerm_resource_group.aks_managed.name
+  location            = azurerm_resource_group.cluster_rg.location
+  resource_group_name = azurerm_resource_group.cluster_rg.name
 }

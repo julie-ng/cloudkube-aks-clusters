@@ -26,6 +26,13 @@ resource "azurerm_role_assignment" "kubelet_vm_contributor" {
   principal_id         = data.azurerm_user_assigned_identity.kubelet.principal_id
 }
 
+# See https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/#user-assigned-identities-that-are-not-within-the-node-resource-group
+resource "azurerm_role_assignment" "kubelet_mi_operator" {
+  role_definition_name = "Managed Identity Operator"
+  scope                = azurerm_resource_group.cluster_rg.id
+  principal_id         = data.azurerm_user_assigned_identity.kubelet.principal_id
+}
+
 # Static IP for LB
 # ----------------
 
