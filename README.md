@@ -25,9 +25,11 @@ Our clusters leverage bring your own identity for Azure Kubernetes Service:
 
 | Managed Identity | Security Principal | Details |
 |:--|:--|:--|
-| `cluster-mi` | AKS Service, IaaS | Belongs to cluster-rg because its lifecycle is outside of the managed cluster (`azure-managed-rg`), which can be torn down and re-deployed, e.g. to access new AKS features. | 
-| `agentpool-mi` | Virtual Machine, IaaS | Used by Azure managed Infra to pull images from Container Registry to deploy pods. |
-| `ingres-pod-mi` | Ingress, Workload | An extra identity by a customer workload (ingress) to get TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
+| `cluster-mi` | AKS Service, IaaS |  Used by the Azure managed Kubernetes Service to create all resources needed for cluster, not just virtual machines. | 
+| `agentpool-mi` | Virtual Machine, IaaS | Can pull images. Less permissions than `cluster-mi`. Agentpool can only manage itself, i.e. Virtual Machines|
+| `ingres-pod-mi` | Ingress, Workload | Fetches TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
+
+Update (December 2021) - originally some managed identities were deployed into the `azure-managed-rg`. But everytime the cluster got re-created the object IDs for the managed identities (under the hood) changed, breaking all RBAC assignments.  Therefore since [issue #1](https://github.com/julie-ng/cloudkube-aks-clusters/issues/1) all managed identities now sit in the Terraform managed `cluster-rg`.
   
 For more about AKS and Managed Identities, see [AKS Docs - Use managed identities in Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/use-managed-identity).
 
