@@ -1,6 +1,6 @@
-# `aks-cluster` module
+# Terraform module: `aks-cluster` 
 
-This module creates the AKS cluster and is used to bring up multiple environments.
+This Terraform module creates the AKS cluster and is used to bring up multiple environments.
 
 ### How to use
 
