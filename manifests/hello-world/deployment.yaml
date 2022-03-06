@@ -29,3 +29,10 @@ spec:
           value: "#00c2ca"
         - name: PORT
           value: "3000"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
