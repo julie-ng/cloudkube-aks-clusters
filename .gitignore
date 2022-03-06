@@ -2,6 +2,7 @@
 .env
 *.azcli
 *.log
+*.log.*
 
 .terraform/
 *.conf
