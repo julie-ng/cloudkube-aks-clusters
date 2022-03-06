@@ -43,6 +43,21 @@ When you initialize the terraform project, point it to the corresponding state f
 terraform init -backend-config=backends/dev.backend.hcl
 ```
 
+## Switching Environments
+
+When we switch between clusters, we need to update the terraform configuration. For example, if we are changing to `staging`. 
+
+First point to the staging backend configuration and `-reconfigure` the backend:
+
+```bash
+terraform init -backend-config=backends/staging.backend.hcl -reconfigure
+```
+
+Then use `-var-file` for terraform commands to pass staging specific configuration, e.g. getting current state:
+
+```bash
+terraform refresh -var-file=environments/staging/staging.cluster.tfvars
+```
 
 # Create Storage Accounts for Terraform State
 
