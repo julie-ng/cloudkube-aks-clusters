@@ -33,7 +33,7 @@ INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .aks_cluster
 INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.id)
 INGRESS_PUBLIC_IP=$(shell terraform output -json summary | jq -r .aks_cluster.public_ip)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
-POD_IDENTITY_CHART_VERSION=4.0.0
+POD_IDENTITY_CHART_VERSION=4.1.8
 
 
 # ========= #
@@ -55,6 +55,9 @@ kubecontext:
 
 setup: create-namespaces install-azure-csi install-pod-identity install-ingress
 uninstall: uninstall-ingress uninstall-pod-identity uninstall-azure-csi delete-namespaces
+
+# if setup partially fails
+post-setup: apply-ingress-mi-tls apply-hello
 
 
 # Namespaces
@@ -94,6 +97,7 @@ install-pod-identity:
 	@echo "${BLUE} Pod Identity ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	@echo ""
 	helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+	helm repo update
 	helm upgrade aad-pod-identity aad-pod-identity/aad-pod-identity \
 		--namespace azure-pod-identity \
 		--version $$POD_IDENTITY_CHART_VERSION \
@@ -121,6 +125,7 @@ install-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+	helm repo update
 	cat ./helm/ingress.values.yaml | envsubst | helm install ingress-basic ingress-nginx/ingress-nginx \
 		--namespace ingress \
 		--timeout 2m30s \
