@@ -40,6 +40,8 @@ module "cluster" {
   system_nodes_max_count    = var.system_nodes_max_count
   user_nodes_min_count      = var.user_nodes_min_count
   user_nodes_max_count      = var.user_nodes_max_count
+  user_node_count           = var.user_node_count
+  automatic_channel_upgrade = var.automatic_channel_upgrade
 
   # ACR
   azure_container_registry_sku           = var.azure_container_registry_sku

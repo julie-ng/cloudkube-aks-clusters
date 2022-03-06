@@ -11,16 +11,25 @@ default_tags = {
 # AKS Config
 kubernetes_version        = "1.19.7"
 nodes_enable_auto_scaling = true
+automatic_channel_upgrade = "patch"
+
+# ==========
+#  VM Sizing
+# ==========
+# For sizes, e.g. `Standard_DS2_v2` see:
+# https://docs.microsoft.com/en-us/azure/virtual-machines/vm-naming-conventions
+# https://docs.microsoft.com/en-us/azure/virtual-machines/dv2-dsv2-series
 
 # System Node Pool
-system_vm_size         = "Standard_DS2_v2"
+system_vm_size         = "Standard_B2ms"
 system_nodes_min_count = 1
 system_nodes_max_count = 2
 
 # User Node Pool
-user_vm_size         = "Standard_DS2_v2"
+user_vm_size         = "Standard_B2ms"
 user_nodes_min_count = 1
-user_nodes_max_count = 2
+user_nodes_max_count = 3
+user_node_count      = 1
 
 # ACR
 azure_container_registry_sku           = "Basic"

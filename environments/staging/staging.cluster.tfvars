@@ -18,3 +18,5 @@ tls_key_vault = {
 }
 
 kubernetes_version = "1.20.9"
+system_vm_size     = "Standard_DS2_v2"
+user_vm_size       = "Standard_DS2_v2"

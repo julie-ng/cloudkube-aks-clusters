@@ -25,6 +25,7 @@ variable "system_nodes_min_count" {}
 variable "system_nodes_max_count" {}
 variable "user_nodes_min_count" {}
 variable "user_nodes_max_count" {}
+variable "user_node_count" {}
 
 variable "node_identity_type" {}
 variable "node_admin_username" {}
@@ -33,6 +34,7 @@ variable "aks_service_cidr" {}
 variable "aks_docker_bridge_cidr" {}
 variable "aks_dns_service_cidr" {}
 variable "aks_disable_local_accounts" {}
+variable "automatic_channel_upgrade" {}
 
 # ACR
 variable "azure_container_registry_sku" {}

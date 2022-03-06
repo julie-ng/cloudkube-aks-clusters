@@ -107,6 +107,14 @@ variable "user_nodes_max_count" {
   type = number
 }
 
+variable "user_node_count" {
+  type = number
+}
+
+variable "automatic_channel_upgrade" {
+  type = string
+}
+
 variable "node_identity_type" {
   type = string
 }
