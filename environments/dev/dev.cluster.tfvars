@@ -16,4 +16,4 @@ tls_key_vault = {
   resource_group = "cloudkube-shared-rg"
 }
 
-kubernetes_version = "1.20.9"
+kubernetes_version = "1.20.15"
