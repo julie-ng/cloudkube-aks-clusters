@@ -2,8 +2,17 @@ controller:
   replicaCount: 3
   nodeSelector:
     beta.kubernetes.io/os: linux
+    workloadType: user # b/c omsagent hogs system node
+  topologySpreadConstraints:
+  - maxSkew: 2
+    topologyKey: "kubernetes.io/hostname" # spread evenly across nodes
+    whenUnsatisfiable: DoNotSchedule # or ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app: ingress
   podLabels:
     aadpodidbinding: ${INGRESS_MI_NAME}
+    app: ingress
   service:
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-resource-group: ${AKS_RG_NAME}
