@@ -4,7 +4,11 @@ This repo is an example of keeping configuration e.g. `environments/*` as close 
 
 #### Further Information
 
-For more about pros and cons of this approach, please see my blog article [Infrastructure as Code and Monorepos - a Pragmatic Approach](https://julie.io/writing/infra-as-code-monorepo/).
+📘 For more about pros and cons of this approach, please see my blog article [Infrastructure as Code and Monorepos - a Pragmatic Approach](https://julie.io/writing/infra-as-code-monorepo/).
+
+### Default Configuration
+
+👉 See [`defaults.auto.tfvars`](./../defaults.auto.tfvars) for cluster default configuration.
 
 ### Use Path based Pipeline Triggers to Target Environments
 
