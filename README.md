@@ -2,6 +2,18 @@
 
 An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps, leveraging `Makefile` instead of lots of bash-fu to install AKS add-ons.
 
+### Table of Contents
+
+- [Architecture Decisions](#architecture-decisions)
+- [Setup and Configure](#setup-and-configure)
+	1. [Requirements](#1-requirements)
+	1. [Deploy AKS Cluster](#2-deploy-aks-cluster)
+	1. [Setup Ingress](#3-setup-ingress)
+- [Cluster Upgrades](#cluster-upgrades)
+- [Miscellaneous](#miscellaneous-1)		
+- [References](#references)
+		
+
 ## Architecture
 
 The following diagram illustrates the Azure solution architecture for _each cluster_, e.g. dev, staging and prod.
@@ -10,13 +22,23 @@ The following diagram illustrates the Azure solution architecture for _each clus
 
 ### Architecture Decisions
 
+#### Networking
+
 - Virtual Network integration
 - Azure CNI Networking
 - [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
-- [Azure Key Vault Provider for Secrets Store CSI Driver](https://azure.github.io/secrets-store-csi-driver-provider-azure/)
+
+#### Identity & Security
+
+- [AKS Managed AAD Integration](https://docs.microsoft.com/en-us/azure/aks/managed-aad)
+  - [Disable Kubernetes Local Accounts](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts)
 - [Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/) 
   - Assigns Azure Active Directory Identities to Ingress Controller pods to fetch TLS certificates from an [externally managed Key Vault](https://github.com/julie-ng/cloudkube-shared-infra). These Key Vaults are in a different IaC repo and resource group because they have a different resource lifecycle.
   - Includes [required role assignments](./modules/README.md#aad-pod-identity) `Virtual Machine Contributor` and `Managed Identity Operator`
+- [Azure Key Vault Provider for Secrets Store CSI Driver](https://azure.github.io/secrets-store-csi-driver-provider-azure/)
+
+#### Miscellaneous
+
 - Prefer `-managed-rg` suffix over default `MC_` prefix for resource group containing managed cluster
 
 ### Managed Identities - Why You Need 3
@@ -39,7 +61,7 @@ Resources names will include one of
 
 - `dev`
 - `staging`
-- `prod`
+- ~~`prod`~~ (currently not used)
 
 ### Hosts
 
@@ -51,7 +73,7 @@ Resources names will include one of
 
 Using Terraform and make commands, you will have an AKS cluster with all the Azure CSI and Pod Identity Add-Ons up and running with just 5 commands.
 
-## 1A) Requirements
+## 1) Requirements
 
 ### CLI Tools (Required)
 
@@ -91,47 +113,6 @@ And to comply with governance best practices, we have 2 different storage accoun
 [<img src="./images/tf-state-rbac.svg" width="460" alt="Use different Storage Accounts for RBAC on Terraform State">](./backends/README.md)
 
 _Diagram: use different Storage Accounts for RBAC on Terraform State. See [backends/README.md](./backends/README.md) for details._
-
-## 1B) Required - Disable Local Accounts Preview Feature
-
-These clusters leverage an Azure Preview feature to [disable local accounts](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview), the local "admin" accounts, which are effectively back door accounts.
-
-
-[Read full instructions on Azure Docs](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts-preview)
-
-
-To enable this, first register for the preview feature
-
-```
-az feature register --namespace "Microsoft.ContainerService" --name "DisableLocalAccountsPreview"
-```
-
-Check if it's finished
-
-```
-az feature list -o table --query "[?contains(name, 'Microsoft.ContainerService/DisableLocalAccountsPreview')].{Name:name,State:properties.state}"
-```
-
-If it's finished, it says **regsitered**
-
-```
-Name                                                    State
-------------------------------------------------------  ----------
-Microsoft.ContainerService/DisableLocalAccountsPreview  Registered
-```
-
-then you can finally enable the feature
-
-```
-az provider register --namespace Microsoft.ContainerService
-```
-
-The Terraform script then uses the [`local_account_disabled`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#local_account_disabled) argument in the [`azurerm_kubernetes_cluster`](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster#local_account_disabled) resource.
-
-
-### Want to keep local accounts?
-
-Just comment out the `local_account_disabled` argument in [`./modules/aks-cluster/_aks.tf` file](./modules/aks-cluster/_aks.tf)
 
 ## 2) Deploy AKS Cluster
 
@@ -189,7 +170,7 @@ If an upgrade (e.g. enable Azure RBAC) requires Terraform to destroy and re-crea
   - the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
   - then finish setup by re-running failed step `make apply-hello`
 
-# Misc.
+# Miscellaneous
 
 ### Update Change log
 
