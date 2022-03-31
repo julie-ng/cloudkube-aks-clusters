@@ -1,7 +1,7 @@
 # Suffix to avoid errors on Azure resources that require globally unique names.
 resource "random_string" "suffix" {
-  length      = 4
-  min_lower   = 3
+  length      = var.suffix_length
+  min_lower   = 2
   min_numeric = 1
   special     = false
   upper       = false

@@ -3,6 +3,7 @@
 variable "name" {}
 variable "env" {}
 variable "suffix" {}
+variable "suffix_length" {}
 variable "hostname" {}
 variable "location" {}
 variable "default_tags" {}

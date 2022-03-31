@@ -1,5 +1,6 @@
-suffix   = ""
-location = "northeurope"
+suffix        = ""
+suffix_length = 4
+location      = "northeurope"
 
 default_tags = {
   env    = "dev"
