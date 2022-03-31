@@ -28,13 +28,19 @@ AKS_TENANT_ID=$(shell terraform output -json summary | jq -r .azure_subscription
 AKS_RG_NAME=$(shell terraform output -json summary | jq -r .resource_group.name)
 AKS_NODE_RG_NAME=$(shell terraform output -json summary | jq -r .aks_cluster.node_rg)
 AKS_CLUSTER_NAME=$(shell terraform output -json summary | jq -r .aks_cluster.name)
+KUBELET_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .managed_identities.kubelet.client_id)
 INGRESS_MI_NAME=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.name)
 INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.client_id)
 INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.id)
 INGRESS_PUBLIC_IP=$(shell terraform output -json summary | jq -r .aks_cluster.public_ip)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
-POD_IDENTITY_CHART_VERSION=4.1.8
+KEY_VAULT_CSI_CHART_VERSION=1.1.0
+INGRESS_CHART_VERSION=4.0.13
+INGRESS_NAMESPACE=ingress
 
+
+# Key Vault Provider CSI Chart Versions
+# https://github.com/Azure/secrets-store-csi-driver-provider-azure/tree/master/charts/csi-secrets-store-provider-azure
 
 # ========= #
 #  Scripts  #
@@ -53,11 +59,8 @@ kubecontext:
 # All the commands
 # ----------------
 
-setup: create-namespaces install-azure-csi install-pod-identity install-ingress
-uninstall: uninstall-ingress uninstall-pod-identity uninstall-azure-csi delete-namespaces
-
-# if setup partially fails
-post-setup: apply-ingress-mi-tls apply-hello
+setup: create-namespaces install-azure-kv-csi install-ingress
+uninstall: uninstall-ingress uninstall-azure-kv-csi delete-namespaces
 
 
 # Namespaces
@@ -77,88 +80,49 @@ delete-namespaces:
 # CSI Driver
 # ----------
 
-install-azure-csi:
+install-azure-kv-csi:
 	@echo ""
 	@echo "${BLUE} Azure CSI ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	helm repo add csi-secrets-store-provider-azure https://azure.github.io/secrets-store-csi-driver-provider-azure/charts
-	helm upgrade azure-csi csi-secrets-store-provider-azure/csi-secrets-store-provider-azure \
+	helm upgrade azure-kv-csi csi-secrets-store-provider-azure/csi-secrets-store-provider-azure \
+		--set secrets-store-csi-driver.syncSecret.enabled=true \
+		--version $$KEY_VAULT_CSI_CHART_VERSION \
 		--namespace kube-system \
 		--install
 
-uninstall-azure-csi:
+uninstall-azure-kv-csi:
 	@echo ""
 	@echo "${BLUE} Azure CSI ${RESET} ${RED_TEXT}helm uninstall${RESET}"
-	helm uninstall azure-kv-csi --namespace -kube-system
+	helm uninstall azure-kv-csi --namespace kube-system
 
-# Pod Identity
-# ------------
-
-install-pod-identity:
-	@echo ""
-	@echo "${BLUE} Pod Identity ${RESET} ${YELLOW_TEXT}helm install${RESET}"
-	@echo ""
-	helm repo add aad-pod-identity https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
-	helm repo update
-	helm upgrade aad-pod-identity aad-pod-identity/aad-pod-identity \
-		--namespace azure-pod-identity \
-		--version $$POD_IDENTITY_CHART_VERSION \
-		--install
-	@echo ""
-	@echo "${BLUE} Pod Identity ${RESET} verify installation"
-	@echo ""
-	kubectl get pods -l "app.kubernetes.io/component=mic" -n azure-pod-identity
-	@echo ""
-	kubectl get pods -l "app.kubernetes.io/component=nmi" -n azure-pod-identity
-
-uninstall-pod-identity:
-	@echo ""
-	@echo "${BLUE} Pod Identity ${RESET} ${RED_TEXT}helm uninstall${RESET}"
-	@echo ""
-	helm uninstall aad-pod-identity -n azure-pod-identity
 
 # Ingress Controller
 # ------------------
 
-install-ingress: apply-ingress-mi-tls install-ingress-chart  apply-hello
-uninstall-ingress: remove-hello remove-ingress-mi-tls uninstall-ingress-chart
+install-ingress: sync-certs install-ingress-chart apply-hello
+uninstall-ingress: remove-hello uninstall-ingress-chart unsync-certs
+
+sync-certs:
+	@cat ./manifests/ingress/secret-provider-classes.yaml | envsubst | kubectl apply -f -
+
+unsync-certs:
+	@cat ./manifests/ingress/secret-provider-classes.yaml | envsubst | kubectl delete -f -
 
 install-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm install${RESET}"
-	helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-	helm repo update
-	cat ./helm/ingress.values.yaml | envsubst | helm install ingress-basic ingress-nginx/ingress-nginx \
-		--namespace ingress \
-		--timeout 2m30s \
-		-f -
-
-update-ingress-chart:
-	@echo ""
-	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}helm upgrade${RESET}"
-	cat ./helm/ingress.values.yaml | envsubst | helm upgrade ingress-basic ingress-nginx/ingress-nginx \
-		--namespace ingress \
+	cat ./manifests/ingress/chart.values.yaml | envsubst | helm upgrade \
+		--install ingress-basic ingress-nginx \
+		--repo https://kubernetes.github.io/ingress-nginx \
+		--namespace $$INGRESS_NAMESPACE \
+		--version $$INGRESS_CHART_VERSION \
 		--timeout 2m30s \
 		-f -
 
 uninstall-ingress-chart:
 	@echo ""
 	@echo "${PURPLE} Ingress ${RESET} ${RED_TEXT}helm uninstall${RESET}"
-	helm uninstall ingress-basic -n ingress
-
-# Setup Bindings
-# --------------
-
-apply-ingress-mi-tls:
-	@echo ""
-	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}kubectl apply -f manifests/ingress/…${RESET}"
-	@cat ./manifests/ingress/pod-identity.yaml | envsubst | kubectl apply -f -
-	@cat ./manifests/ingress/secret-provider-classes.yaml | envsubst | kubectl apply -f -
-
-remove-ingress-mi-tls:
-	@echo ""
-	@echo "${PURPLE} Ingress ${RESET} ${RED_TEXT}kubectl delete -f manifests/ingress/…${RESET}"
-	@cat ./manifests/ingress/pod-identity.yaml | envsubst | kubectl delete -f -
-	@cat ./manifests/ingress/secret-provider-classes.yaml | envsubst | kubectl delete -f -
+	helm uninstall ingress-basic --namespace $$INGRESS_NAMESPACE
 
 
 # Hello World
@@ -178,15 +142,3 @@ remove-hello:
 	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl delete -f -
 
-# Debugging
-# ---------
-
-list-cluster-identities:
-	@echo ""
-	@echo "${YELLOW} Debugging ${RESET} List Cluster Identities"
-	az identity list -g $$AKS_RG_NAME
-
-list-node-identities:
-	@echo ""
-	@echo "${YELLOW} Debugging ${RESET} List AKS Node Identities"
-	az identity list -g $$AKS_NODE_RG_NAME

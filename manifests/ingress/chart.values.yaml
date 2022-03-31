@@ -1,3 +1,4 @@
+# https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
 controller:
   replicaCount: 3
   nodeSelector:
@@ -11,7 +12,6 @@ controller:
       matchLabels:
         app: ingress
   podLabels:
-    aadpodidbinding: ${INGRESS_MI_NAME}
     app: ingress
   service:
     annotations:

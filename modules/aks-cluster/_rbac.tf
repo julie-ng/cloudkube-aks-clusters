@@ -60,8 +60,8 @@ resource "azurerm_role_assignment" "kv_admin" {
   scope                = azurerm_key_vault.cluster_kv.id
 }
 
-resource "azurerm_role_assignment" "cluster_kv_ingress_mi" {
+resource "azurerm_role_assignment" "cluster_kv_kubelet_mi" {
   role_definition_name = "Key Vault Secrets User"
-  principal_id         = azurerm_user_assigned_identity.ingress_pod.principal_id
+  principal_id         = data.azurerm_user_assigned_identity.kubelet.principal_id
   scope                = azurerm_key_vault.cluster_kv.id
 }

@@ -37,11 +37,9 @@ output "summary" {
     role_assignments = {
       kubelet_rbac = {
         container_registry = azurerm_role_assignment.acr_assignments
-      }
-      ingress_rbac = {
         cluster_kv = {
-          scope                = azurerm_role_assignment.cluster_kv_ingress_mi.scope
-          role_definition_name = azurerm_role_assignment.cluster_kv_ingress_mi.role_definition_name
+          scope                = azurerm_role_assignment.cluster_kv_kubelet_mi.scope
+          role_definition_name = azurerm_role_assignment.cluster_kv_kubelet_mi.role_definition_name
         }
       }
     }
