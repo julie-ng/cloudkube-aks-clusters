@@ -80,14 +80,15 @@ delete-namespaces:
 install-azure-csi:
 	@echo ""
 	@echo "${BLUE} Azure CSI ${RESET} ${YELLOW_TEXT}helm install${RESET}"
-	helm repo add csi-secrets-store-provider-azure https://raw.githubusercontent.com/Azure/secrets-store-csi-driver-provider-azure/master/charts
-	helm install azure-csi csi-secrets-store-provider-azure/csi-secrets-store-provider-azure \
-		--namespace azure-csi
+	helm repo add csi-secrets-store-provider-azure https://azure.github.io/secrets-store-csi-driver-provider-azure/charts
+	helm upgrade azure-csi csi-secrets-store-provider-azure/csi-secrets-store-provider-azure \
+		--namespace kube-system \
+		--install
 
 uninstall-azure-csi:
 	@echo ""
 	@echo "${BLUE} Azure CSI ${RESET} ${RED_TEXT}helm uninstall${RESET}"
-	helm uninstall azure-csi -n azure-csi
+	helm uninstall azure-kv-csi --namespace -kube-system
 
 # Pod Identity
 # ------------
