@@ -1,7 +1,7 @@
 controller:
   replicaCount: 3
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    kubernetes.io/os: linux
     workloadType: user # b/c omsagent hogs system node
   topologySpreadConstraints:
   - maxSkew: 2
@@ -50,5 +50,5 @@ controller:
         readOnly: true
 defaultBackend:
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    kubernetes.io/os: linux
     workloadType: user # b/c omsagent hogs system node
