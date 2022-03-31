@@ -72,6 +72,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   automatic_channel_upgrade = var.automatic_channel_upgrade
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
+  }
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "user" {
@@ -81,7 +87,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "user" {
   os_type               = "Linux"
   os_sku                = "Ubuntu"
   vm_size               = var.user_vm_size
-  node_count            = var.user_node_count
+  vnet_subnet_id        = azurerm_subnet.aks.id
   enable_auto_scaling   = true
   min_count             = var.user_nodes_min_count
   max_count             = var.user_nodes_max_count
@@ -93,6 +99,12 @@ resource "azurerm_kubernetes_cluster_node_pool" "user" {
 
   upgrade_settings {
     max_surge = 1
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags
+    ]
   }
 }
 
