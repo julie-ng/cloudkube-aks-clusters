@@ -1,6 +1,8 @@
 name                        = "cloudkube-dev"
 env                         = "dev"
 hostname                    = "dev.cloudkube.io"
+location                    = "norwayeast"
+suffix                      = "i7iw"
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
 aks_disable_local_accounts  = true
@@ -16,6 +18,6 @@ tls_key_vault = {
   resource_group = "cloudkube-shared-rg"
 }
 
-kubernetes_version = "1.20.15"
+kubernetes_version = "1.21.9"
 system_vm_size     = "Standard_B2ms"
 user_vm_size       = "Standard_B2ms"
