@@ -3,7 +3,7 @@ controller:
   replicaCount: 3
   nodeSelector:
     kubernetes.io/os: linux
-    workloadType: user # b/c omsagent hogs system node
+    agentpool: user # b/c omsagent hogs system node
   topologySpreadConstraints:
   - maxSkew: 2
     topologyKey: "kubernetes.io/hostname" # spread evenly across nodes
@@ -51,4 +51,4 @@ controller:
 defaultBackend:
   nodeSelector:
     kubernetes.io/os: linux
-    workloadType: user # b/c omsagent hogs system node
+    agentpool: user # b/c omsagent hogs system node
