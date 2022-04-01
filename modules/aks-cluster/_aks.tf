@@ -11,6 +11,21 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = local.aks_dns_prefix
   tags                = var.default_tags
 
+  local_account_disabled            = var.aks_disable_local_accounts
+  role_based_access_control_enabled = true
+  automatic_channel_upgrade         = var.automatic_channel_upgrade
+
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.aks_mi.id]
+  }
+
+  azure_active_directory_role_based_access_control {
+    managed            = true
+    azure_rbac_enabled = true
+  }
+
   default_node_pool {
     name                 = "system"
     orchestrator_version = var.kubernetes_version
@@ -36,12 +51,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     docker_bridge_cidr = var.aks_docker_bridge_cidr
   }
 
-  # Control Plane
-  identity {
-    type                      = "UserAssigned"
-    user_assigned_identity_id = azurerm_user_assigned_identity.aks_mi.id
-  }
-
   linux_profile {
     admin_username = var.node_admin_username
 
@@ -50,28 +59,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     }
   }
 
-  addon_profile {
-    kube_dashboard {
-      enabled = false
-    }
-
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cloudkube.id
-    }
+  oms_agent {
+    log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cloudkube.id
   }
-
-  local_account_disabled = var.aks_disable_local_accounts
-
-  role_based_access_control {
-    enabled = true
-    azure_active_directory {
-      managed            = true
-      azure_rbac_enabled = true
-    }
-  }
-
-  automatic_channel_upgrade = var.automatic_channel_upgrade
 
   lifecycle {
     ignore_changes = [

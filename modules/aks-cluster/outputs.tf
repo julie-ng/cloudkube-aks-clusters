@@ -1,6 +1,6 @@
 output "summary" {
   value = {
-    env = var.env
+    env      = var.env
     hostname = var.hostname
     azure_subscription = {
       id        = data.azurerm_client_config.current.subscription_id
@@ -54,7 +54,6 @@ output "summary" {
       id                         = azurerm_key_vault.cluster_kv.id
       name                       = azurerm_key_vault.cluster_kv.name
       enable_rbac_authorization  = azurerm_key_vault.cluster_kv.enable_rbac_authorization
-      soft_delete_enabled        = azurerm_key_vault.cluster_kv.soft_delete_enabled
       soft_delete_retention_days = azurerm_key_vault.cluster_kv.soft_delete_retention_days
       vault_uri                  = azurerm_key_vault.cluster_kv.vault_uri
       sku_name                   = azurerm_key_vault.cluster_kv.sku_name

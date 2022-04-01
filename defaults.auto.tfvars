@@ -44,7 +44,7 @@ node_identity_type        = "SystemAssigned"
 # Networking
 # aks_dns_prefix        = var.name
 aks_network_plugin    = "azure"
-aks_load_balancer_sku = "Standard"
+aks_load_balancer_sku = "standard"
 
 # Log Analytics
 log_analytics_workspace_name = "cloudkube-log-analytics"
