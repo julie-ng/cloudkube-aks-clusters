@@ -103,7 +103,6 @@ resource "null_resource" "upgrade_user_pools" {
     user_node_pool_version = azurerm_kubernetes_cluster_node_pool.user.orchestrator_version
   }
 
-  # https://docs.microsoft.com/en-us/cli/azure/aks/nodepool?view=azure-cli-latest#az-aks-nodepool-upgrade
   provisioner "local-exec" {
     command = "az aks nodepool upgrade --cluster-name $CLUSTER_NAME --name $NODE_POOL_NAME --resource-group $RESOURCE_GROUP_NAME"
     environment = {
@@ -116,11 +115,9 @@ resource "null_resource" "upgrade_user_pools" {
 
 resource "null_resource" "upgrade_system_nodes" {
   triggers = {
-    # control_plane_version = azurerm_kubernetes_cluster.aks.kubernetes_version
     system_node_pool_version = azurerm_kubernetes_cluster.aks.default_node_pool[0].orchestrator_version
   }
 
-  # https://docs.microsoft.com/en-us/cli/azure/aks/nodepool?view=azure-cli-latest#az-aks-nodepool-upgrade
   provisioner "local-exec" {
     command = "az aks nodepool upgrade --cluster-name $CLUSTER_NAME --name $NODE_POOL_NAME --resource-group $RESOURCE_GROUP_NAME"
     environment = {
