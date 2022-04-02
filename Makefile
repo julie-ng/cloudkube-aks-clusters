@@ -118,6 +118,7 @@ install-ingress-chart:
 		--version $$INGRESS_CHART_VERSION \
 		--timeout 2m30s \
 		-f -
+	sleep 60
 
 uninstall-ingress-chart:
 	@echo ""
