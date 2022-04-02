@@ -26,12 +26,6 @@ controller:
           readOnly: true
           volumeAttributes:
             secretProviderClass: "cluster-kv"
-      - name: ingress-tls-${AKS_ENV_NAME}
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: "ingress-tls-${AKS_ENV_NAME}"
       - name: ingress-tls-${AKS_ENV_NAME}-wildcard
         csi:
           driver: secrets-store.csi.k8s.io
@@ -41,9 +35,6 @@ controller:
   extraVolumeMounts:
       - name: cluster-kv-inline
         mountPath: "/mnt/cluster-kv"
-        readOnly: true
-      - name: ingress-tls-${AKS_ENV_NAME}
-        mountPath: "/mnt/ingress-tls-${AKS_ENV_NAME}"
         readOnly: true
       - name: ingress-tls-${AKS_ENV_NAME}-wildcard
         mountPath: "/mnt/ingress-tls-wildcard"

@@ -132,6 +132,7 @@ uninstall-ingress-chart:
 apply-hello:
 	@echo ""
 	@echo "${PURPLE} Hello World ${RESET} ${YELLOW_TEXT}kubectl apply -f manifests/hello-world/…${RESET}"
+	@cat ./manifests/hello-world/secret-provider-class.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/ingress.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl apply -f -
@@ -139,6 +140,7 @@ apply-hello:
 remove-hello:
 	@echo ""
 	@echo "${PURPLE} Hello World ${RESET} ${RED_TEXT}kubectl delete -f manifests/hello-world/…${RESET}"
+	@cat ./manifests/hello-world/secret-provider-class.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/ingress.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl delete -f -
