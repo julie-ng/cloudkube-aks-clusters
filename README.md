@@ -32,9 +32,7 @@ The following diagram illustrates the Azure solution architecture for _each clus
 
 - [AKS Managed AAD Integration](https://docs.microsoft.com/en-us/azure/aks/managed-aad)
   - [Disable Kubernetes Local Accounts](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts)
-- [Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/) 
-  - Assigns Azure Active Directory Identities to Ingress Controller pods to fetch TLS certificates from an [externally managed Key Vault](https://github.com/julie-ng/cloudkube-shared-infra). These Key Vaults are in a different IaC repo and resource group because they have a different resource lifecycle.
-  - Includes [required role assignments](./modules/README.md#aad-pod-identity) `Virtual Machine Contributor` and `Managed Identity Operator`
+- ~~[Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/)~~ removed in [v0.4.0](https://github.com/julie-ng/cloudkube-aks-clusters/blob/main/CHANGELOG.md#040-2022-04-02). See [#4](https://github.com/julie-ng/cloudkube-aks-clusters/issues/4) for details.
 - [Azure Key Vault Provider for Secrets Store CSI Driver](https://azure.github.io/secrets-store-csi-driver-provider-azure/)
 
 #### Miscellaneous
@@ -48,8 +46,7 @@ Our clusters leverage bring your own identity for Azure Kubernetes Service:
 | Managed Identity | Security Principal | Details |
 |:--|:--|:--|
 | `cluster-mi` | AKS Service, IaaS |  Used by the Azure managed Kubernetes Service to create all resources needed for cluster, not just virtual machines. | 
-| `agentpool-mi` | Virtual Machine, IaaS | Can pull images. Less permissions than `cluster-mi`. Agentpool can only manage itself, i.e. Virtual Machines|
-| `ingres-pod-mi` | Ingress, Workload | Fetches TLS certificates from Key Vault in a different resource group - a customer specific, non-Azure requirement. |
+| `agentpool-mi` | Virtual Machine, IaaS | Can pull images. Less permissions than `cluster-mi`. Agentpool can only manage itself, i.e. Virtual Machines. |
 
 Update (December 2021) - originally some managed identities were deployed into the `azure-managed-rg`. But everytime the cluster got re-created the object IDs for the managed identities (under the hood) changed, breaking all RBAC assignments.  Therefore since [issue #1](https://github.com/julie-ng/cloudkube-aks-clusters/issues/1) all managed identities now sit in the Terraform managed `cluster-rg`.
   
@@ -153,7 +150,6 @@ make setup
 
 which will
 - install Azure CSI driver
-- install Azure Pod Identity 
 - setup namespaces
 - install nginx ingress controller
 - setup and configure "hello world" app
@@ -166,7 +162,7 @@ See [Makefile](./Makefile) for details.
 If an upgrade (e.g. enable Azure RBAC) requires Terraform to destroy and re-create the cluster, then additional steps are required after `terraform apply`
 
 - re-setup with `make setup` was required
-- re-setup access to TLS certificates for ingress pods
+- re-setup access to TLS certificates for ingress
   - the managed identities for kubelet and ingress change, which requires re-deploying [cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra).
   - then finish setup by re-running failed step `make apply-hello`
 
