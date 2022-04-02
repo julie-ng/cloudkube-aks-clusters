@@ -38,9 +38,17 @@ KEY_VAULT_CSI_CHART_VERSION=1.1.0
 INGRESS_CHART_VERSION=4.0.13
 INGRESS_NAMESPACE=ingress
 
-
 # Key Vault Provider CSI Chart Versions
 # https://github.com/Azure/secrets-store-csi-driver-provider-azure/tree/master/charts/csi-secrets-store-provider-azure
+
+
+release:
+	npx standard-version \
+		--release-as minor \
+		--packageFiles manifest.json \
+		--bumpFiles manifest.json \
+		--skip.commit \
+		--skip.tag
 
 # ========= #
 #  Scripts  #
