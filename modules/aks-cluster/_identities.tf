@@ -19,11 +19,3 @@ data "azurerm_user_assigned_identity" "kubelet" {
     azurerm_kubernetes_cluster.aks
   ]
 }
-
-# Ingress Pod (nodes rg)
-
-resource "azurerm_user_assigned_identity" "ingress_pod" {
-  name                = "${local.name}-ingress-pod-mi"
-  location            = azurerm_resource_group.cluster_rg.location
-  resource_group_name = azurerm_resource_group.cluster_rg.name
-}

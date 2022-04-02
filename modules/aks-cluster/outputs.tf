@@ -22,12 +22,6 @@ output "summary" {
       node_rg          = azurerm_kubernetes_cluster.aks.node_resource_group
       public_ip        = azurerm_public_ip.ingress.ip_address
       kubelet_identity = azurerm_kubernetes_cluster.aks.kubelet_identity
-      ingress_mi = {
-        id           = azurerm_user_assigned_identity.ingress_pod.id
-        name         = azurerm_user_assigned_identity.ingress_pod.name
-        client_id    = azurerm_user_assigned_identity.ingress_pod.client_id
-        principal_id = azurerm_user_assigned_identity.ingress_pod.principal_id
-      }
     }
     tls_key_vault = {
       id                  = data.azurerm_key_vault.shared_kv.id
@@ -46,7 +40,6 @@ output "summary" {
     managed_identities = {
       control_plane = azurerm_user_assigned_identity.aks_mi
       kubelet       = data.azurerm_user_assigned_identity.kubelet
-      ingress       = azurerm_user_assigned_identity.ingress_pod
     }
     key_vault = {
       id                         = azurerm_key_vault.cluster_kv.id
