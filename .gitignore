@@ -5,12 +5,12 @@
 *.log.*
 
 .terraform/
+backends/*.hcl
 *.conf
 *.conf.hcl
 *.state.hcl
 *.tfplan
 *.tfstate*
-*.backend.hcl
 
 certs/
 *.cert
