@@ -1,7 +1,8 @@
 name                        = "cloudkube-staging"
 env                         = "staging"
 hostname                    = "staging.cloudkube.io"
-suffix                      = "d7c"
+location                    = "norwayeast"
+suffix_length               = 3
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
 aks_disable_local_accounts  = true
@@ -17,6 +18,6 @@ tls_key_vault = {
   resource_group = "cloudkube-shared-rg"
 }
 
-kubernetes_version = "1.20.9"
+kubernetes_version = "1.21.7"
 system_vm_size     = "Standard_DS2_v2"
 user_vm_size       = "Standard_DS2_v2"
