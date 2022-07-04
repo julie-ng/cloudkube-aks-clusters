@@ -17,6 +17,7 @@ output "summary" {
     }
     aks_cluster = {
       name             = azurerm_kubernetes_cluster.aks.name
+      id               = azurerm_kubernetes_cluster.aks.id
       fqdn             = azurerm_kubernetes_cluster.aks.fqdn
       identity         = azurerm_kubernetes_cluster.aks.identity
       node_rg          = azurerm_kubernetes_cluster.aks.node_resource_group
@@ -40,6 +41,10 @@ output "summary" {
     managed_identities = {
       control_plane = azurerm_user_assigned_identity.aks_mi
       kubelet       = data.azurerm_user_assigned_identity.kubelet
+    }
+    principal_ids = {
+      cluster_principal_id = local.cluster_principal_id
+      kubelet_principal_id = local.kubelet_principal_id
     }
     key_vault = {
       id                         = azurerm_key_vault.cluster_kv.id
