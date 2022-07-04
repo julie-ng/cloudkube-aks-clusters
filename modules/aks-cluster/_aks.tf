@@ -62,7 +62,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   lifecycle {
     ignore_changes = [
-      tags
+      tags,
+      default_node_pool[0].node_count
     ]
   }
 }
@@ -87,7 +88,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
 
   lifecycle {
     ignore_changes = [
-      tags
+      tags,
+      node_count
     ]
   }
 }
