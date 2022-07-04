@@ -42,14 +42,6 @@ INGRESS_NAMESPACE=ingress
 # https://github.com/Azure/secrets-store-csi-driver-provider-azure/tree/master/charts/csi-secrets-store-provider-azure
 
 
-release:
-	npx standard-version \
-		--release-as minor \
-		--packageFiles manifest.json \
-		--bumpFiles manifest.json \
-		--skip.commit \
-		--skip.tag
-
 # ========= #
 #  Scripts  #
 # ========= #
