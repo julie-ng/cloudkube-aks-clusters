@@ -132,11 +132,3 @@ data "azurerm_log_analytics_workspace" "cloudkube" {
   name                = var.log_analytics_workspace_name
   resource_group_name = var.log_analytics_workspace_rg
 }
-
-# AKS Nodes RG
-data "azurerm_resource_group" "aks_managed" {
-  name = "${local.name_suffixed}-managed-rg"
-  depends_on = [
-    azurerm_kubernetes_cluster.aks
-  ]
-}
