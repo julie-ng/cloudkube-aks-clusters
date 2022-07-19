@@ -30,5 +30,11 @@ refresh-dev:
 refresh-staging:
 	terraform refresh -var-file=environments/staging/staging.cluster.tfvars
 
+destroy-dev:
+	terraform destroy -var-file=environments/dev/dev.cluster.tfvars
+
+destroy-staging:
+	terraform destroy -var-file=environments/staging/staging.cluster.tfvars
+
 apply:
 	terraform apply plan.tfplan
