@@ -36,7 +36,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     max_count            = var.user_nodes_max_count
 
     upgrade_settings {
-      max_surge = 1 # allow 2 extra nodes beyond `max_count` during upgrades
+      max_surge = 2 # allow 2 extra nodes beyond `max_count` during upgrades
     }
   }
 
