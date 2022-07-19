@@ -15,10 +15,15 @@ resource "azurerm_kubernetes_cluster" "aks" {
   role_based_access_control_enabled = true
   automatic_channel_upgrade         = var.automatic_channel_upgrade
 
-
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.aks_mi.id]
+    identity_ids = [azurerm_user_assigned_identity.control_plane_mi.id]
+  }
+
+  kubelet_identity {
+    client_id                 = azurerm_user_assigned_identity.kubelet_mi.client_id
+    object_id                 = azurerm_user_assigned_identity.kubelet_mi.principal_id
+    user_assigned_identity_id = azurerm_user_assigned_identity.kubelet_mi.id
   }
 
   azure_active_directory_role_based_access_control {
@@ -66,6 +71,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
       default_node_pool[0].node_count
     ]
   }
+
+  depends_on = [
+    azurerm_role_assignment.control_plane_mi,
+    azurerm_role_assignment.kubelet_mi_operator
+  ]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "system" {
