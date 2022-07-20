@@ -8,7 +8,8 @@ An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps, lev
 - [Setup and Configure](#setup-and-configure)
 	1. [Requirements](#1-requirements)
 	1. [Deploy AKS Cluster](#2-deploy-aks-cluster)
-	1. [Setup Ingress](#3-setup-ingress)
+	1. [Re-configure Shared Infra](#3-re-configure-shared-infra)
+	1. [Setup Ingress](#4-setup-ingress)
 - [Cluster Upgrades](#cluster-upgrades)
 - [Miscellaneous](#miscellaneous-1)		
 - [References](#references)
@@ -39,18 +40,12 @@ The following diagram illustrates the Azure solution architecture for _each clus
 
 - Prefer `-managed-rg` suffix over default `MC_` prefix for resource group containing managed cluster
 
-### Managed Identities - Why You Need 3
-
-Our clusters leverage bring your own identity for Azure Kubernetes Service:
+### Managed Identities - Control Plane vs Kubelet
 
 | Managed Identity | Security Principal | Details |
 |:--|:--|:--|
-| `cluster-mi` | AKS Service, IaaS |  Used by the Azure managed Kubernetes Service to create all resources needed for cluster, not just virtual machines. | 
-| `agentpool-mi` | Virtual Machine, IaaS | Can pull images. Less permissions than `cluster-mi`. Agentpool can only manage itself, i.e. Virtual Machines. |
-
-Update (December 2021) - originally some managed identities were deployed into the `azure-managed-rg`. But everytime the cluster got re-created the object IDs for the managed identities (under the hood) changed, breaking all RBAC assignments.  Therefore since [issue #1](https://github.com/julie-ng/cloudkube-aks-clusters/issues/1) all managed identities now sit in the Terraform managed `cluster-rg`.
-  
-For more about AKS and Managed Identities, see [AKS Docs - Use managed identities in Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/use-managed-identity).
+| `control-plane-mi` | AKS Control Plane | Interfaces with ARM to manage cluster resources, VMs, networking, etc. | 
+| `kubelet-mi` | K8s Node Agent | Needs some access e.g. Container Registry and Key Vault to setup workloads. |
 
 ### Environments 
 
@@ -139,7 +134,16 @@ If you are satisified with the plan, deploy it
 terraform apply plan.tfplan
 ```
 
-## 3) Setup Ingress
+## 3) Re-configure Shared Infra
+
+If the cluster is a re-created, go to [julie-ng/cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra) and run the infra as code there to
+
+- update DNS records to new Static IP
+- update RBAC Assignments to Key Vault that holds TLS certificates. Otherwise ingress controller deployment will fail.
+
+When that runs, come back here.
+
+## 4) Setup Ingress
 
 Finally finish cluster setup with
 
