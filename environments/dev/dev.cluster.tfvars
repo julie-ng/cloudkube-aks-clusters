@@ -26,7 +26,7 @@ system_nodes_min_count = 1
 system_nodes_max_count = 2
 
 # User Node Pool
-user_vm_size         = "Standard_B2ms"
+user_vm_size         = "Standard_B4ms"
 user_nodes_min_count = 1
 user_nodes_max_count = 4
 user_node_count      = 1
