@@ -129,9 +129,6 @@ variable "node_admin_ssh_public_key" {
   description = "Public Key used for SSH access to node VMs."
 }
 
-variable "azure_container_registry_sku" {}
-variable "azure_container_registry_admin_enabled" {}
-
 variable "aks_service_cidr" {
   type        = string
   description = "Required for VNet integration"

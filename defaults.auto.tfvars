@@ -32,10 +32,6 @@ user_nodes_min_count = 1
 user_nodes_max_count = 3
 user_node_count      = 1
 
-# ACR
-azure_container_registry_sku           = "Basic"
-azure_container_registry_admin_enabled = false
-
 # Accounts
 node_admin_username       = "ubuntu"
 node_admin_ssh_public_key = "~/.ssh/id_rsa.pub"

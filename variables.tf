@@ -37,9 +37,6 @@ variable "aks_dns_service_cidr" {}
 variable "aks_disable_local_accounts" {}
 variable "automatic_channel_upgrade" {}
 
-# ACR
-variable "azure_container_registry_sku" {}
-variable "azure_container_registry_admin_enabled" {}
 
 # TLS Certs
 variable "tls_key_vault" {}

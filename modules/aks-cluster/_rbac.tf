@@ -101,16 +101,6 @@ resource "azurerm_role_assignment" "aks_mi_network_contributor" {
 }
 
 
-# ACR
-# ---
-
-resource "azurerm_role_assignment" "acr_assignments" {
-  role_definition_name = "AcrPull"
-  scope                = azurerm_container_registry.acr.id
-  principal_id         = azurerm_user_assigned_identity.kubelet_mi.principal_id
-}
-
-
 # Key Vault
 # ---------
 

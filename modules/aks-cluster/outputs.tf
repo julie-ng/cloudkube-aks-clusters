@@ -31,7 +31,6 @@ output "summary" {
     }
     role_assignments = {
       kubelet_rbac = {
-        container_registry = azurerm_role_assignment.acr_assignments
         cluster_kv = {
           scope                = azurerm_role_assignment.cluster_kv_kubelet_mi.scope
           role_definition_name = azurerm_role_assignment.cluster_kv_kubelet_mi.role_definition_name

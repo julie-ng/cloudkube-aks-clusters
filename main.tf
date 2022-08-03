@@ -43,10 +43,6 @@ module "cluster" {
   user_node_count           = var.user_node_count
   automatic_channel_upgrade = var.automatic_channel_upgrade
 
-  # ACR
-  azure_container_registry_sku           = var.azure_container_registry_sku
-  azure_container_registry_admin_enabled = var.azure_container_registry_admin_enabled
-
   # Accounts
   node_admin_username        = var.node_admin_username
   node_admin_ssh_public_key  = file(var.node_admin_ssh_public_key)
