@@ -21,6 +21,11 @@ locals {
 
 data "azurerm_resource_group" "aks_managed" {
   name = local.aks_managed_resource_group
+
+  # needed if manaul suffix
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
 }
 
 
