@@ -19,6 +19,16 @@ tls_key_vault = {
   resource_group = "cloudkube-shared-rg"
 }
 
-kubernetes_version = "1.21.7"
-system_vm_size     = "Standard_DS2_v2"
-user_vm_size       = "Standard_DS2_v2"
+# Kubernetes Version
+kubernetes_version = "1.21.14"
+
+# System Node Pool
+system_vm_size         = "Standard_B2ms"
+system_nodes_min_count = 1
+system_nodes_max_count = 2
+
+# User Node Pool
+user_vm_size         = "Standard_B2ms"
+user_nodes_min_count = 1
+user_nodes_max_count = 4
+user_node_count      = 1
