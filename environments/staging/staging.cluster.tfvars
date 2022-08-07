@@ -1,8 +1,9 @@
-name     = "cloudkube-staging"
-env      = "staging"
-hostname = "staging.cloudkube.io"
-location = "norwayeast"
-suffix   = "fi9" # tf random 3 chars are weird
+name          = "cloudkube-staging"
+env           = "staging"
+hostname      = "staging.cloudkube.io"
+location      = "eastus2"
+suffix_length = 3
+# suffix      = ""
 
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
