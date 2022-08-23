@@ -90,7 +90,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "system" {
   enable_auto_scaling   = true
   min_count             = var.system_nodes_min_count
   max_count             = var.system_nodes_max_count
-  tags                  = var.default_tags
+  # tags                  = var.default_tags
 
   upgrade_settings {
     max_surge = 2
