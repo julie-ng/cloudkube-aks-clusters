@@ -1,9 +1,9 @@
-name          = "cloudkube-staging"
-env           = "staging"
-hostname      = "staging.cloudkube.io"
-location      = "eastus2"
-suffix_length = 3
-# suffix      = ""
+name     = "cloudkube-staging"
+env      = "staging"
+hostname = "staging.cloudkube.io"
+location = "eastus2"
+# suffix_length = 3
+suffix = "1bp"
 
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
@@ -21,7 +21,7 @@ tls_key_vault = {
 }
 
 # Kubernetes Version
-kubernetes_version = "1.21.14"
+kubernetes_version = "1.22.6"
 
 # System Node Pool
 system_vm_size         = "Standard_B2ms"
