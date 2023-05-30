@@ -194,15 +194,14 @@ Official Documentation
 
 ### Azure
 
-- [Azure Key Vault - Roles](https://docs.microsoft.com/azure/key-vault/general/rbac-guide?tabs=azure-cli)
+- Azure AD RBAC
+  - [Built-in Roles for Azure Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations)
+  - [Built-in Roles for Kubernetes Authorization](https://learn.microsoft.com/en-us/azure/aks/concepts-identity#built-in-roles)
 - [Azure Kubernetes Service - Summary of Managed Identities](https://docs.microsoft.com/azure/aks/use-managed-identity#summary-of-managed-identities)
-- **[Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/)**
-	- [Getting Started > Role Assignments](https://azure.github.io/aad-pod-identity/docs/getting-started/role-assignment/)
-	- [Helm Chart on Artifact Hub](https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx)
-	- [Helm Chart Configuration on GitHub](https://github.com/Azure/aad-pod-identity/tree/master/charts/aad-pod-identity#configuration)
+- **[Azure AD Workload Identity with AKS](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview)**
 - **[Azure CSI](https://azure.github.io/secrets-store-csi-driver-provider-azure/)**
 	- [Standard Walkthrough](https://azure.github.io/secrets-store-csi-driver-provider-azure/demos/standard-walkthrough/)
-	- [Enable NGINX Ingress Controller with TLS](https://azure.github.io/secrets-store-csi-driver-provider-azure/configurations/ingress-tls/)
+	- [Enable NGINX Ingress Controller with TLS](https://azure.github.io/secrets-store-csi-driver-provider-azure/docs/configurations/ingress-tls/)
 
 ### Nginx Ingress Controller
 
