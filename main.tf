@@ -5,7 +5,7 @@ resource "random_string" "suffix" {
   min_numeric = 1
   special     = false
   upper       = false
-  number      = true
+  numeric     = true
 }
 
 locals {
