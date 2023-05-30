@@ -33,7 +33,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   default_node_pool {
-    name                 = "user"
+    name                 = "system" # default pool is always system
     orchestrator_version = var.kubernetes_version
     vm_size              = var.user_vm_size
     vnet_subnet_id       = azurerm_subnet.aks.id
@@ -82,9 +82,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   ]
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "system" {
-  name                  = "system"
-  mode                  = "System"
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  name                  = "user"
+  mode                  = "User"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
   orchestrator_version  = var.kubernetes_version
   os_type               = "Linux"
