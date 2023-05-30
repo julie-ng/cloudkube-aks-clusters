@@ -14,6 +14,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   local_account_disabled            = var.aks_disable_local_accounts
   role_based_access_control_enabled = true
   automatic_channel_upgrade         = var.automatic_channel_upgrade
+  azure_policy_enabled              = true
 
   identity {
     type         = "UserAssigned"
@@ -46,11 +47,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   network_profile {
-    network_plugin     = var.aks_network_plugin
-    load_balancer_sku  = var.aks_load_balancer_sku
-    service_cidr       = var.aks_service_cidr
-    dns_service_ip     = var.aks_dns_service_cidr
-    docker_bridge_cidr = var.aks_docker_bridge_cidr
+    network_plugin    = var.aks_network_plugin
+    load_balancer_sku = var.aks_load_balancer_sku
+    service_cidr      = var.aks_service_cidr
+    dns_service_ip    = var.aks_dns_service_cidr
   }
 
   linux_profile {
@@ -59,6 +59,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     ssh_key {
       key_data = var.node_admin_ssh_public_key
     }
+  }
+
+  microsoft_defender {
+    log_analytics_workspace_id = data.azurerm_log_analytics_workspace.cloudkube.id
   }
 
   oms_agent {
