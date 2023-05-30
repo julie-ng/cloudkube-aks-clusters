@@ -18,7 +18,7 @@ tls_key_vault = {
 }
 
 # Kubernetes Version
-kubernetes_version = "1.21.14"
+kubernetes_version = "1.25.5"
 
 # System Node Pool
 system_vm_size         = "Standard_B2ms"
