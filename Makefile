@@ -34,8 +34,8 @@ INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .aks_cluster
 INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.id)
 INGRESS_PUBLIC_IP=$(shell terraform output -json summary | jq -r .aks_cluster.public_ip)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
-KEY_VAULT_CSI_CHART_VERSION=1.2.2
-INGRESS_CHART_VERSION=4.2.0
+KEY_VAULT_CSI_CHART_VERSION=1.4.2
+INGRESS_CHART_VERSION=4.6.1
 INGRESS_NAMESPACE=ingress
 
 # Key Vault Provider CSI Chart Versions
@@ -84,6 +84,7 @@ install-azure-kv-csi:
 	@echo ""
 	@echo "${BLUE} Azure CSI ${RESET} ${YELLOW_TEXT}helm install${RESET}"
 	helm repo add csi-secrets-store-provider-azure https://azure.github.io/secrets-store-csi-driver-provider-azure/charts
+	helm repo update
 	helm upgrade azure-kv-csi csi-secrets-store-provider-azure/csi-secrets-store-provider-azure \
 		--set secrets-store-csi-driver.syncSecret.enabled=true \
 		--version $$KEY_VAULT_CSI_CHART_VERSION \
