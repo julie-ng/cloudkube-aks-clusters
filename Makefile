@@ -53,6 +53,7 @@ kubecontext:
 	az aks get-credentials \
 		--resource-group ${AKS_RG_NAME} \
 		--name ${AKS_CLUSTER_NAME}
+	kubelogin convert-kubeconfig -l azurecli
 	kubectl get pods --all-namespaces
 
 
