@@ -34,12 +34,15 @@ INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .aks_cluster
 INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.id)
 INGRESS_PUBLIC_IP=$(shell terraform output -json summary | jq -r .aks_cluster.public_ip)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
-KEY_VAULT_CSI_CHART_VERSION=1.4.2
-INGRESS_CHART_VERSION=4.6.1
+KEY_VAULT_CSI_CHART_VERSION=1.5.1
+INGRESS_CHART_VERSION=4.9.0
 INGRESS_NAMESPACE=ingress
 
 # Key Vault Provider CSI Chart Versions
 # https://github.com/Azure/secrets-store-csi-driver-provider-azure/tree/master/charts/csi-secrets-store-provider-azure
+
+# Ingress Chart versions
+# https://github.com/kubernetes/ingress-nginx/releases
 
 
 # ========= #
