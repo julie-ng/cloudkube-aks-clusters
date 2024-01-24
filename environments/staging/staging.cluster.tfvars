@@ -1,7 +1,7 @@
 name     = "cloudkube-staging"
 env      = "staging"
 hostname = "staging.cloudkube.io"
-location = "eastus2"
+location = "eastus"
 # suffix_length = 3
 suffix = "1bp"
 
@@ -21,7 +21,7 @@ tls_key_vault = {
 }
 
 # Kubernetes Version
-kubernetes_version = "1.22.6"
+kubernetes_version = "1.28.3"
 
 # System Node Pool
 system_vm_size         = "Standard_B2ms"
