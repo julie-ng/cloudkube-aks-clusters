@@ -48,3 +48,5 @@ defaultBackend:
   nodeSelector:
     kubernetes.io/os: linux
     agentpool: user # b/c omsagent hogs system node
+rbac:
+  create: false # not using k8s rbac
