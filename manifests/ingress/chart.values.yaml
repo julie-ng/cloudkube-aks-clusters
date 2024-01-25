@@ -7,7 +7,7 @@ controller:
     agentpool: user # b/c omsagent hogs system node
   service:
     annotations:
-      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /livez
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
     externalTrafficPolicy: Local
   topologySpreadConstraints:
   - maxSkew: 2
