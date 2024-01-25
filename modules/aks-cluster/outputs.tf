@@ -16,13 +16,13 @@ output "summary" {
       subnet        = azurerm_virtual_network.cluster_vnet.subnet
     }
     aks_cluster = {
-      name             = azurerm_kubernetes_cluster.aks.name
-      id               = azurerm_kubernetes_cluster.aks.id
-      fqdn             = azurerm_kubernetes_cluster.aks.fqdn
-      identity         = azurerm_kubernetes_cluster.aks.identity
-      node_rg          = azurerm_kubernetes_cluster.aks.node_resource_group
-      public_ip        = azurerm_public_ip.ingress.ip_address
-      kubelet_identity = azurerm_kubernetes_cluster.aks.kubelet_identity
+      name              = azurerm_kubernetes_cluster.aks.name
+      id                = azurerm_kubernetes_cluster.aks.id
+      fqdn              = azurerm_kubernetes_cluster.aks.fqdn
+      identity          = azurerm_kubernetes_cluster.aks.identity
+      node_rg           = azurerm_kubernetes_cluster.aks.node_resource_group
+      static_ingress_ip = azurerm_public_ip.ingress.ip_address
+      kubelet_identity  = azurerm_kubernetes_cluster.aks.kubelet_identity
     }
     tls_key_vault = {
       id                  = data.azurerm_key_vault.shared_kv.id

@@ -23,7 +23,7 @@ resource "azurerm_subnet" "aks" {
 # ----------------
 
 resource "azurerm_public_ip" "ingress" {
-  name                = "${local.name}-public-ip"
+  name                = "${local.name}-ingress-ip"
   resource_group_name = azurerm_resource_group.cluster_rg.name
   location            = azurerm_resource_group.cluster_rg.location
   sku                 = "Standard"
