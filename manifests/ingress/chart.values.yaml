@@ -1,9 +1,14 @@
 # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+# https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
 controller:
   replicaCount: 3
   nodeSelector:
     kubernetes.io/os: linux
     agentpool: user # b/c omsagent hogs system node
+  service:
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /livez
+    externalTrafficPolicy: Local
   topologySpreadConstraints:
   - maxSkew: 2
     topologyKey: "kubernetes.io/hostname" # spread evenly across nodes
