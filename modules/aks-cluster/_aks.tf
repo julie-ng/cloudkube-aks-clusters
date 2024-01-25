@@ -53,6 +53,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     dns_service_ip    = var.aks_dns_service_cidr
   }
 
+  web_app_routing {
+    dns_zone_id = ""
+  }
+
   linux_profile {
     admin_username = var.node_admin_username
 

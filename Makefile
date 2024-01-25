@@ -35,7 +35,7 @@ INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_clust
 INGRESS_STATIC_IP=$(shell terraform output -json summary | jq -r .aks_cluster.static_ingress_ip)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
 KEY_VAULT_CSI_CHART_VERSION=1.5.1
-INGRESS_CHART_VERSION=4.9.0
+INGRESS_CHART_VERSION=4.8.0 # older version works with Azure…  4.7 supposedly works, but need 4.8 for aks 1.28
 INGRESS_NAMESPACE=ingress
 
 # Key Vault Provider CSI Chart Versions
@@ -150,3 +150,11 @@ remove-hello:
 	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl delete -f -
 
+
+
+# ============= #
+# Misc. Scripts
+# ============= #
+
+get-web-app-routing-id:
+	terraform output -json summary | jq -r ".managed_identities.web_app_routing[0].web_app_routing_identity[0].user_assigned_identity_id"
