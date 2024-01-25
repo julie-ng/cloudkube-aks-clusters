@@ -1,6 +1,6 @@
 suffix        = ""
 suffix_length = 4
-location      = "northeurope"
+location      = "eastus"
 
 default_tags = {
   env    = "dev"
