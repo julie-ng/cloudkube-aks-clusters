@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/julie-ng/cloudkube-aks-clusters/compare/v0.4.0...v0.5.0) (2024-01-29)
+
+
+### Features
+
+* **costs:** remove unused container registry ([a6eac51](https://github.com/julie-ng/cloudkube-aks-clusters/commit/a6eac51a8c16ab5cf562ba596e82ea732a3db5e2))
+
+
+### Bug Fixes
+
+* **iac:** managed rg always forcing replacement [#8](https://github.com/julie-ng/cloudkube-aks-clusters/issues/8) ([f75871a](https://github.com/julie-ng/cloudkube-aks-clusters/commit/f75871a0a1bd7b22b9a07c9336a1e840b374192b))
+* **ingress:** new Azure annotations, update deps ([5d82d01](https://github.com/julie-ng/cloudkube-aks-clusters/commit/5d82d0138fd92779760b7f779fb78be80e357330))
+* **rbac:** stable role assignments via IaC, closes [#7](https://github.com/julie-ng/cloudkube-aks-clusters/issues/7) ([0ee3c11](https://github.com/julie-ng/cloudkube-aks-clusters/commit/0ee3c113c5fc2add7bf6573808c44eec05a5073e))
+* remove web-app-routing, does not work for this use case. ([1aa12c4](https://github.com/julie-ng/cloudkube-aks-clusters/commit/1aa12c4fba09307dd6809df91e682f0abedc50b2))
+* **staging:** lifecycle for manual cluster name ([4863999](https://github.com/julie-ng/cloudkube-aks-clusters/commit/4863999c65d43ff46c8a7240a925c0c5a29e9caf))
+* use local vars to prevent re-creating assignments ([f33be0b](https://github.com/julie-ng/cloudkube-aks-clusters/commit/f33be0bdc1c4a7352076e4c568e3132cb0ca5d38))
+* yaml 🤦‍♀️ ([94c2b2e](https://github.com/julie-ng/cloudkube-aks-clusters/commit/94c2b2eb63614299310921188c30381c40871ff7))
+
 ## [0.4.0](https://github.com/julie-ng/cloudkube-aks-clusters/compare/v0.3.0...v0.4.0) (2022-04-02)
 
 
