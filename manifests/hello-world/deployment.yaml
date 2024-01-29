@@ -24,7 +24,7 @@ spec:
             app: hello-world
       containers:
       - name: hello-world
-        image: julieio/hello:0.2.1
+        image: julieio/hello:0.4.0
         ports:
         - containerPort: 3000
         env:
