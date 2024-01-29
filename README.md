@@ -176,7 +176,7 @@ If an upgrade (e.g. enable Azure RBAC) requires Terraform to destroy and re-crea
 To update [CHANGELOG.md](./CHANGELOG.md) with [standard-version](https://github.com/conventional-changelog/standard-version) run
 
 ```bash
-make release
+standard-version --packageFiles manifest.json --sign --release-as minor
 ```
 
 then adjust as needed by hand and commit.
