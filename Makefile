@@ -150,11 +150,3 @@ remove-hello:
 	@cat ./manifests/hello-world/service.yaml | envsubst | kubectl delete -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl delete -f -
 
-
-
-# ============= #
-# Misc. Scripts
-# ============= #
-
-get-web-app-routing-id:
-	terraform output -json summary | jq -r ".managed_identities.web_app_routing[0].web_app_routing_identity[0].user_assigned_identity_id"

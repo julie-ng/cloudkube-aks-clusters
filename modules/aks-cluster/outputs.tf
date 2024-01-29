@@ -38,9 +38,8 @@ output "summary" {
       }
     }
     managed_identities = {
-      control_plane   = azurerm_user_assigned_identity.control_plane_mi
-      kubelet         = azurerm_user_assigned_identity.kubelet_mi
-      web_app_routing = azurerm_kubernetes_cluster.aks.web_app_routing
+      control_plane = azurerm_user_assigned_identity.control_plane_mi
+      kubelet       = azurerm_user_assigned_identity.kubelet_mi
     }
     principal_ids = {
       cluster_principal_id = local.cluster_principal_id
