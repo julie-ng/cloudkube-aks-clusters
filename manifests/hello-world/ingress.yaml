@@ -1,17 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
   name: hello-world
   namespace: hello-world
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
-      - '${AKS_ENV_HOSTNAME}'
+      - '${AKS_ENV_HOSTNAME}' # 'dev.cloudkube.io'
     secretName: ingress-tls-${AKS_ENV_NAME}
   rules:
-    - host: ${AKS_ENV_HOSTNAME}
+    - host: ${AKS_ENV_HOSTNAME} # dev.cloudkube.io
       http:
         paths:
           - path: /

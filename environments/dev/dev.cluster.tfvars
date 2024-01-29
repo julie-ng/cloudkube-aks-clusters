@@ -1,7 +1,7 @@
 name                        = "cloudkube-dev"
 env                         = "dev"
 hostname                    = "dev.cloudkube.io"
-location                    = "eastus2"
+location                    = "eastus"
 vnet_address_space          = ["10.0.0.0/16"]
 aks_subnet_address_prefixes = ["10.0.2.0/24"]
 aks_disable_local_accounts  = true
@@ -18,7 +18,8 @@ tls_key_vault = {
 }
 
 # Kubernetes Version
-kubernetes_version = "1.25.5"
+# See also https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli#aks-kubernetes-release-calendar
+kubernetes_version = "1.28.3"
 
 # System Node Pool
 system_vm_size         = "Standard_B2ms"

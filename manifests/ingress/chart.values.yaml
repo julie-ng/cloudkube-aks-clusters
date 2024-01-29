@@ -1,4 +1,5 @@
 # https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+# https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
 controller:
   replicaCount: 3
   nodeSelector:
@@ -16,7 +17,9 @@ controller:
   service:
     annotations:
       service.beta.kubernetes.io/azure-load-balancer-resource-group: ${AKS_RG_NAME}
-    loadBalancerIP: ${INGRESS_PUBLIC_IP}
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz
+    loadBalancerIP: ${INGRESS_STATIC_IP}
+    externalTrafficPolicy: Local
   extraArgs:
     default-ssl-certificate: "ingress/ingress-tls-${AKS_ENV_NAME}-wildcard"
   extraVolumes:
@@ -43,3 +46,5 @@ defaultBackend:
   nodeSelector:
     kubernetes.io/os: linux
     agentpool: user # b/c omsagent hogs system node
+# rbac:
+#   create: false # DO NOT do this. Docs imply should. But don't.

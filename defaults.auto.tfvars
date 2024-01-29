@@ -1,6 +1,6 @@
 suffix        = ""
 suffix_length = 4
-location      = "northeurope"
+location      = "eastus"
 
 default_tags = {
   env    = "dev"
@@ -10,7 +10,7 @@ default_tags = {
 }
 
 # AKS Config
-kubernetes_version        = "1.19.7"
+kubernetes_version        = "1.28.3"
 nodes_enable_auto_scaling = true
 automatic_channel_upgrade = "patch"
 

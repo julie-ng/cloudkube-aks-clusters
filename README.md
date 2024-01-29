@@ -31,9 +31,8 @@ The following diagram illustrates the Azure solution architecture for _each clus
 
 #### Identity & Security
 
-- [AKS Managed AAD Integration](https://docs.microsoft.com/en-us/azure/aks/managed-aad)
-  - [Disable Kubernetes Local Accounts](https://docs.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts)
-- ~~[Azure AD Pod Identity](https://azure.github.io/aad-pod-identity/)~~ removed in [v0.4.0](https://github.com/julie-ng/cloudkube-aks-clusters/blob/main/CHANGELOG.md#040-2022-04-02). See [#4](https://github.com/julie-ng/cloudkube-aks-clusters/issues/4) for details.
+- [AKS Managed Microsoft Entra ID Integration](https://learn.microsoft.com/en-us/azure/aks/enable-authentication-microsoft-entra-id)
+  - [Disable Kubernetes Local Accounts](https://learn.microsoft.com/en-us/azure/aks/manage-local-accounts-managed-azure-ad#disable-local-accounts)
 - [Azure Key Vault Provider for Secrets Store CSI Driver](https://azure.github.io/secrets-store-csi-driver-provider-azure/)
 
 #### Miscellaneous
