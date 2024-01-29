@@ -19,7 +19,7 @@ tls_key_vault = {
 
 # Kubernetes Version
 # See also https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli#aks-kubernetes-release-calendar
-kubernetes_version = "1.28.3"
+kubernetes_version = "1.27.7"
 
 # System Node Pool
 system_vm_size         = "Standard_B2ms"
