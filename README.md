@@ -2,18 +2,35 @@
 
 An opinionated Azure Kubernetes Service (AKS) cluster for running demo apps, leveraging `Makefile` instead of lots of bash-fu to install AKS add-ons.
 
-### Table of Contents
 
-- [Architecture Decisions](#architecture-decisions)
-- [Setup and Configure](#setup-and-configure)
-	1. [Requirements](#1-requirements)
-	1. [Deploy AKS Cluster](#2-deploy-aks-cluster)
-	1. [Re-configure Shared Infra](#3-re-configure-shared-infra)
-	1. [Setup Ingress](#4-setup-ingress)
-- [Cluster Upgrades](#cluster-upgrades)
-- [Miscellaneous](#miscellaneous-1)		
-- [References](#references)
-		
+## TL;DR; (Deploy)
+
+Because I'm too impatient to read, I created a [`workflow.makefile`](./workflow.makefile). The commands below refer to the `dev` environment. To target staging, just replace suffixes with `staging`.
+
+#### Part 1
+
+Run Terraform - and remember to review `plan` before `apply`.
+
+```bash
+make -f workflow.makefile init-dev
+make -f workflow.makefile plan-dev
+make -f workflow.makefile apply-dev
+```
+
+#### Part 2
+
+Go to [julie-ng/cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra) repo, take cluster suffix, e.g. `p7vm` and update `terraform.tfvars` in  and run that infra as code.
+
+#### Part 3
+
+Come back here (this repo) and install ingress controller, pull TLS certs from key vault and deploy a hello world app.
+
+```bash
+make kubecontext
+make setup
+```
+
+See full commands and explanations below.
 
 ## Architecture
 
@@ -64,37 +81,7 @@ Resources names will include one of
 
 Using Terraform and make commands, you will have an AKS cluster with all the Azure CSI and Pod Identity Add-Ons up and running with just 5 commands.
 
-## TL;DR;
-
-The commands below refer to the `dev` environment. To target staging, just replace suffixes with `staging`.
-
-#### Part 1
-
-Run
-
-```bash
-make -f workflow.makefile init-dev
-make -f workflow.makefile plan-dev
-# human review of plan!
-make -f workflow.makefile apply-dev
-```
-
-#### Part 2
-
-Take cluster suffix, e.g. `p7vm` and update `terraform.tfvars` in [julie-ng/cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra) repo and run that infra as code.
-
-#### Part 3
-
-Come back here and run
-
-```bash
-make kubecontext
-
-# (optional) install ingress controller & hello world app
-make setup
-```
-
-## 1) Requirements
+## Requirements
 
 ### CLI Tools (Required)
 
@@ -135,9 +122,9 @@ And to comply with governance best practices, we have 2 different storage accoun
 
 _Diagram: use different Storage Accounts for RBAC on Terraform State. See [backends/README.md](./backends/README.md) for details._
 
-## 2) Deploy AKS Cluster
+## Deployment 
 
-#### terraform init
+### terraform init
 
 First initialize the remote backend and specify which environment, e.g. `backends/dev.backend.hcl`
 
@@ -147,7 +134,7 @@ terraform init -backend-config=backends/dev.backend.hcl
 
 If you dont' want to deal with remote and multiple environments, you can leave out the `-backend-config` flag.
 
-#### terraform plan
+### terraform plan
 
 Now create a infrastructure plan. Specify environment configuration with `var-file` flag pointing to e.g. `environments/dev.tfvars`
 
@@ -155,7 +142,7 @@ Now create a infrastructure plan. Specify environment configuration with `var-fi
 terraform plan -var-file=environments/dev.tfvars -out plan.tfplan
 ```
 
-#### terraform apply
+### terraform apply
 
 If you are satisified with the plan, deploy it
 
@@ -163,7 +150,7 @@ If you are satisified with the plan, deploy it
 terraform apply plan.tfplan
 ```
 
-## 3) Re-configure Shared Infra
+## Re-configure Shared Infra
 
 If the cluster is a re-created, go to [julie-ng/cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra) and run the infra as code there to
 
@@ -172,7 +159,7 @@ If the cluster is a re-created, go to [julie-ng/cloudkube-shared-infra](https://
 
 When that runs, come back here.
 
-## 4) Setup Ingress
+## Setup Ingress Controller
 
 Finally finish cluster setup with
 
