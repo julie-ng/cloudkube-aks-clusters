@@ -16,6 +16,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   automatic_channel_upgrade         = var.automatic_channel_upgrade
   azure_policy_enabled              = true
 
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.control_plane_mi.id]
