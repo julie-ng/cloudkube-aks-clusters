@@ -110,36 +110,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "user" {
 
 # TODO: upgrade node pools via Bicep instead.
 
-# resource "null_resource" "upgrade_user_pools" {
-#   triggers = {
-#     user_node_pool_version = azurerm_kubernetes_cluster_node_pool.system.orchestrator_version
-#   }
-
-#   provisioner "local-exec" {
-#     command = "az aks nodepool upgrade --cluster-name $CLUSTER_NAME --name $NODE_POOL_NAME --resource-group $RESOURCE_GROUP_NAME"
-#     environment = {
-#       CLUSTER_NAME        = azurerm_kubernetes_cluster.aks.name
-#       NODE_POOL_NAME      = azurerm_kubernetes_cluster_node_pool.system.name
-#       RESOURCE_GROUP_NAME = azurerm_kubernetes_cluster.aks.resource_group_name
-#     }
-#   }
-# }
-
-# resource "null_resource" "upgrade_system_nodes" {
-#   triggers = {
-#     system_node_pool_version = azurerm_kubernetes_cluster.aks.default_node_pool[0].orchestrator_version
-#   }
-
-#   provisioner "local-exec" {
-#     command = "az aks nodepool upgrade --cluster-name $CLUSTER_NAME --name $NODE_POOL_NAME --resource-group $RESOURCE_GROUP_NAME"
-#     environment = {
-#       CLUSTER_NAME        = azurerm_kubernetes_cluster.aks.name
-#       NODE_POOL_NAME      = azurerm_kubernetes_cluster.aks.default_node_pool[0].name # "system"
-#       RESOURCE_GROUP_NAME = azurerm_kubernetes_cluster.aks.resource_group_name
-#     }
-#   }
-# }
-
 # Data Sources
 # ------------
 
