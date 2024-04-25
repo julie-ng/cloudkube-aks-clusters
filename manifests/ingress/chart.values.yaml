@@ -4,7 +4,7 @@ controller:
   replicaCount: 3
   nodeSelector:
     kubernetes.io/os: linux
-    agentpool: user # b/c omsagent hogs system node
+    agentpool: workloads
   topologySpreadConstraints:
   - maxSkew: 2
     topologyKey: "kubernetes.io/hostname" # spread evenly across nodes
@@ -45,6 +45,6 @@ controller:
 defaultBackend:
   nodeSelector:
     kubernetes.io/os: linux
-    agentpool: user # b/c omsagent hogs system node
+    agentpool: workloads
 # rbac:
 #   create: false # DO NOT do this. Docs imply should. But don't.

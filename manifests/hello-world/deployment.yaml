@@ -14,7 +14,7 @@ spec:
         app: hello-world
     spec:
       nodeSelector:
-        agentpool: user
+        agentpool: workloads
       topologySpreadConstraints:
       - maxSkew: 2
         topologyKey: "kubernetes.io/hostname" # spread evenly across nodes
