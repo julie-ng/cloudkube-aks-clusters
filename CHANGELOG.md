@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/julie-ng/cloudkube-aks-clusters/compare/v0.5.0...v0.6.0) (2024-04-25)
+
+
+### Features
+
+* add workload identity ([4dff3fb](https://github.com/julie-ng/cloudkube-aks-clusters/commit/4dff3fbcdf234bc897b1e293c92c8c5791a34910))
+* **charts:** update kv csi and nginx ingress versions ([29e16b5](https://github.com/julie-ng/cloudkube-aks-clusters/commit/29e16b58bcb66a98d53e1b135542d2c3b85a6a0f))
+* **defaults:** newer k8s version ([1b38c9a](https://github.com/julie-ng/cloudkube-aks-clusters/commit/1b38c9a2ee2192b0b0d2b5abf725b37d4723e31e))
+* **hello-world:** use v0.4.0 ([18bd7cb](https://github.com/julie-ng/cloudkube-aks-clusters/commit/18bd7cb0e8313fc1c06d8d72f86303710678fede))
+* **ingress:** update node pool name ([c73290f](https://github.com/julie-ng/cloudkube-aks-clusters/commit/c73290f9798fdcdf6e28e7adc160b807b6fc88e7))
+* **nodepools:** use AzureLinux. Fix 'system' and 'user' mixup 🤦‍♀️ ([ae132cd](https://github.com/julie-ng/cloudkube-aks-clusters/commit/ae132cd6f492705b3cc0e67b2a51b9ffdc3c0bcb))
+* remove unused architecture-review namespace ([fae74b4](https://github.com/julie-ng/cloudkube-aks-clusters/commit/fae74b4ac63f5a6a14b20ce7e4e57c35219e01c5))
+
 ## [0.5.0](https://github.com/julie-ng/cloudkube-aks-clusters/compare/v0.4.0...v0.5.0) (2024-01-29)
 
 
