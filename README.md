@@ -64,6 +64,36 @@ Resources names will include one of
 
 Using Terraform and make commands, you will have an AKS cluster with all the Azure CSI and Pod Identity Add-Ons up and running with just 5 commands.
 
+## TL;DR;
+
+The commands below refer to the `dev` environment. To target staging, just replace suffixes with `staging`.
+
+#### Part 1
+
+Run
+
+```bash
+make -f workflow.makefile init-dev
+make -f workflow.makefile plan-dev
+# human review of plan!
+make -f workflow.makefile apply-dev
+```
+
+#### Part 2
+
+Take cluster suffix, e.g. `p7vm` and update `terraform.tfvars` in [julie-ng/cloudkube-shared-infra](https://github.com/julie-ng/cloudkube-shared-infra) repo and run that infra as code.
+
+#### Part 3
+
+Come back here and run
+
+```bash
+make kubecontext
+
+# (optional) install ingress controller & hello world app
+make setup
+```
+
 ## 1) Requirements
 
 ### CLI Tools (Required)
