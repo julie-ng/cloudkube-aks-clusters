@@ -33,15 +33,21 @@ module "cluster" {
 
   # AKS Config
   kubernetes_version        = var.kubernetes_version
-  system_vm_size            = var.system_vm_size
-  user_vm_size              = var.user_vm_size
   nodes_enable_auto_scaling = var.nodes_enable_auto_scaling
-  system_nodes_min_count    = var.system_nodes_min_count
-  system_nodes_max_count    = var.system_nodes_max_count
-  user_nodes_min_count      = var.user_nodes_min_count
-  user_nodes_max_count      = var.user_nodes_max_count
-  user_node_count           = var.user_node_count
   automatic_channel_upgrade = var.automatic_channel_upgrade
+
+  # system node pool
+  system_node_pool_name  = var.system_node_pool_name
+  system_vm_size         = var.system_vm_size
+  system_nodes_min_count = var.system_nodes_min_count
+  system_nodes_max_count = var.system_nodes_max_count
+
+  # user node pool
+  user_node_pool_name  = var.user_node_pool_name
+  user_vm_size         = var.user_vm_size
+  user_nodes_min_count = var.user_nodes_min_count
+  user_nodes_max_count = var.user_nodes_max_count
+  user_node_count      = var.user_node_count
 
   # Accounts
   node_admin_username        = var.node_admin_username

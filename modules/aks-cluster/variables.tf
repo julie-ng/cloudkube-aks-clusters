@@ -72,8 +72,23 @@ variable "aks_load_balancer_sku" {
   default = "standard"
 }
 
+variable "os_sku" {
+  type    = string
+  default = "AzureLinux"
+}
+
 # AKS
 # ---
+
+variable "system_node_pool_name" {
+  type    = string
+  default = "system"
+}
+
+variable "user_node_pool_name" {
+  type    = string
+  default = "user"
+}
 
 variable "kubernetes_version" {
   type = string
