@@ -10,7 +10,7 @@ default_tags = {
 }
 
 # AKS Config
-kubernetes_version        = "1.28.3"
+kubernetes_version        = "1.28.5"
 nodes_enable_auto_scaling = true
 automatic_channel_upgrade = "patch"
 
