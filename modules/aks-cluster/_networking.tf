@@ -1,41 +1,33 @@
 # Virtual Network
-# ---------------
+# See https://github.com/julie-ng/cloudkube-networking-iac
 
-resource "azurerm_virtual_network" "cluster_vnet" {
-  name                = "${local.name}-vnet"
-  location            = azurerm_resource_group.cluster_rg.location
-  resource_group_name = azurerm_resource_group.cluster_rg.name
-  address_space       = var.vnet_address_space
-  tags                = var.default_tags
+data "azurerm_resource_group" "networking" {
+  name = "${var.name}-networking-rg"
 }
 
-# AKS Subnet
-# ----------
+data "azurerm_virtual_network" "cloudkube_vnet" {
+  name                = "${var.name}-vnet"
+  resource_group_name = data.azurerm_resource_group.networking.name
+}
 
-resource "azurerm_subnet" "aks" {
+data "azurerm_subnet" "aks_nodes" {
   name                 = "aks-nodes-subnet"
-  resource_group_name  = azurerm_resource_group.cluster_rg.name
-  virtual_network_name = azurerm_virtual_network.cluster_vnet.name
-  address_prefixes     = var.aks_subnet_address_prefixes
+  virtual_network_name = "${var.name}-vnet"
+  resource_group_name  = data.azurerm_resource_group.networking.name
 }
 
-# Static IP for LB
-# ----------------
+data "azurerm_subnet" "aks_api_server" {
+  name                 = "aks-api-server-subnet"
+  virtual_network_name = "${var.name}-vnet"
+  resource_group_name  = data.azurerm_resource_group.networking.name
+}
 
-resource "azurerm_public_ip" "ingress" {
-  name                = "${local.name}-ingress-ip"
-  resource_group_name = azurerm_resource_group.cluster_rg.name
-  location            = azurerm_resource_group.cluster_rg.location
-  sku                 = "Standard"
-  allocation_method   = "Static"
-  tags                = var.default_tags
+data "azurerm_public_ip" "aks_ingress" {
+  name                = "${var.name}-aks-ingress-ip"
+  resource_group_name = data.azurerm_resource_group.networking.name
+}
 
-  depends_on = [
-    azurerm_kubernetes_cluster.aks
-  ]
-
-  # Used in DNS records (managed by another IaC repo)
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
+locals {
+  k8s_service_cidr   = data.azurerm_virtual_network.cloudkube_vnet.tags["reserved-k8s-service-range"]
+  k8s_dns_service_ip = data.azurerm_virtual_network.cloudkube_vnet.tags["reserved-k8s-dns-service-ip"]
 }

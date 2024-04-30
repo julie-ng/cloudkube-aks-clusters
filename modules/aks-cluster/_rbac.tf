@@ -98,11 +98,18 @@ resource "azurerm_role_assignment" "kubelet_vm_contributor" {
 # Static IP for LB
 # ----------------
 
-resource "azurerm_role_assignment" "aks_mi_network_contributor" {
+resource "azurerm_role_assignment" "control_plane_on_api_server_subnet" {
   role_definition_name = "Network Contributor"
-  scope                = azurerm_resource_group.cluster_rg.id
+  scope                = data.azurerm_subnet.aks_api_server.id
   principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
 }
+
+resource "azurerm_role_assignment" "control_plane_on_nodes_subnet" {
+  role_definition_name = "Network Contributor"
+  scope                = data.azurerm_subnet.aks_nodes.id
+  principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
+}
+
 
 
 # Key Vault

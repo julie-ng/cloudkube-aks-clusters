@@ -56,17 +56,8 @@ module "cluster" {
   aks_disable_local_accounts = var.aks_disable_local_accounts
 
   # Networking
-  # aks_dns_prefix        = var.aks_dns_prefix
   aks_network_plugin    = var.aks_network_plugin
   aks_load_balancer_sku = var.aks_load_balancer_sku
-
-  vnet_address_space          = var.vnet_address_space
-  aks_subnet_address_prefixes = var.aks_subnet_address_prefixes
-
-  # Required VNet integration config
-  aks_service_cidr       = var.aks_service_cidr
-  aks_dns_service_cidr   = var.aks_dns_service_cidr
-  aks_docker_bridge_cidr = var.aks_docker_bridge_cidr
 
   # TLS from shared infra rg
   tls_key_vault = var.tls_key_vault

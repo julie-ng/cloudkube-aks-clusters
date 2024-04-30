@@ -42,7 +42,6 @@ node_admin_ssh_public_key = "~/.ssh/id_rsa.pub"
 node_identity_type        = "SystemAssigned"
 
 # Networking
-# aks_dns_prefix        = var.name
 aks_network_plugin    = "azure"
 aks_load_balancer_sku = "standard"
 

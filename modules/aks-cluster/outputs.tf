@@ -11,9 +11,10 @@ output "summary" {
       location = azurerm_resource_group.cluster_rg.location
     }
     virtual_network = {
-      name          = azurerm_virtual_network.cluster_vnet.name
-      address_space = azurerm_virtual_network.cluster_vnet.address_space
-      subnet        = azurerm_virtual_network.cluster_vnet.subnet
+      name              = data.azurerm_virtual_network.cloudkube_vnet.name
+      address_space     = data.azurerm_virtual_network.cloudkube_vnet.address_space
+      aks_subnet        = data.azurerm_subnet.aks_nodes
+      api_server_subnet = data.azurerm_subnet.aks_api_server
     }
     aks_cluster = {
       name              = azurerm_kubernetes_cluster.aks.name
@@ -21,7 +22,7 @@ output "summary" {
       fqdn              = azurerm_kubernetes_cluster.aks.fqdn
       identity          = azurerm_kubernetes_cluster.aks.identity
       node_rg           = azurerm_kubernetes_cluster.aks.node_resource_group
-      static_ingress_ip = azurerm_public_ip.ingress.ip_address
+      static_ingress_ip = data.azurerm_public_ip.aks_ingress.ip_address
       kubelet_identity  = azurerm_kubernetes_cluster.aks.kubelet_identity
     }
     tls_key_vault = {

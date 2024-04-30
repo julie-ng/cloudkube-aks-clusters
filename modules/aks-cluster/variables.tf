@@ -41,25 +41,13 @@ variable "default_tags" {
   }
 }
 
-# Networking (Azure)
-# ------------------
-
-variable "vnet_address_space" {
-  type        = list(string)
-  description = "AKS Cluster Virtual Network Space"
-}
-
-variable "aks_subnet_address_prefixes" {
-  type        = list(string)
-  description = "Address space for subnet containing AKS nodes"
-}
-
 # Networking (AKS)
 # ------------------
 
 variable "aks_dns_prefix" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
+  description = "Prefix for FQDN for API Server (optional)"
 }
 
 variable "aks_network_plugin" {
@@ -141,21 +129,6 @@ variable "node_admin_username" {
 variable "node_admin_ssh_public_key" {
   type        = string
   description = "Public Key used for SSH access to node VMs."
-}
-
-variable "aks_service_cidr" {
-  type        = string
-  description = "Required for VNet integration"
-}
-
-variable "aks_docker_bridge_cidr" {
-  type        = string
-  description = "Required for VNet integration"
-}
-
-variable "aks_dns_service_cidr" {
-  type        = string
-  description = "Required for VNet integration"
 }
 
 variable "aks_disable_local_accounts" {
