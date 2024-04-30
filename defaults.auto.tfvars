@@ -9,9 +9,10 @@ default_tags = {
 }
 
 # AKS Config
-kubernetes_version        = "1.28.5"
-nodes_enable_auto_scaling = true
-automatic_channel_upgrade = "patch"
+kubernetes_version         = "1.28.5"
+automatic_channel_upgrade  = "patch"
+nodes_enable_auto_scaling  = true
+aks_disable_local_accounts = true
 
 # ==========
 #  VM Sizing
