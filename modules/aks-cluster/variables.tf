@@ -37,8 +37,7 @@ variable "location" {
 variable "default_tags" {
   type = map(string)
   default = {
-    demo   = "true"
-    public = "true"
+    demo = "true"
   }
 }
 

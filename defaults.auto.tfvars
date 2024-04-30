@@ -3,10 +3,9 @@ suffix_length = 4
 location      = "eastus"
 
 default_tags = {
-  env    = "dev"
-  iac    = "terraform"
-  demo   = "true"
-  public = "true"
+  env  = "dev"
+  iac  = "terraform"
+  demo = "true"
 }
 
 # AKS Config
