@@ -36,6 +36,9 @@ See full commands and explanations below.
 
 The following diagram illustrates the Azure solution architecture for _each cluster_, e.g. dev, staging and prod.
 
+> [!IMPORTANT]
+> The diagram below is no longer accurate. VNet and public ip moved to another resource group in a different [IaC repo](https://github.com/julie-ng/cloudkube-networking-iac).
+
 ![Cloudkube.io AKS Cluster](./images/architecture.png)
 
 ### Architecture Decisions
