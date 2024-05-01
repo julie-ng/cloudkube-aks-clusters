@@ -11,19 +11,26 @@ output "summary" {
       location = azurerm_resource_group.cluster_rg.location
     }
     virtual_network = {
-      name              = data.azurerm_virtual_network.cloudkube_vnet.name
-      address_space     = data.azurerm_virtual_network.cloudkube_vnet.address_space
-      aks_subnet        = data.azurerm_subnet.aks_nodes
-      api_server_subnet = data.azurerm_subnet.aks_api_server
+      name           = data.azurerm_virtual_network.cloudkube_vnet.name
+      address_space  = data.azurerm_virtual_network.cloudkube_vnet.address_space[0]
+      resource_group = data.azurerm_resource_group.networking.name
+      static_ingress_ip = {
+        name    = data.azurerm_public_ip.aks_ingress.name
+        address = data.azurerm_public_ip.aks_ingress.ip_address
+      }
+      # subnets = data.azurerm_virtual_network.cloudkube_vnet.subnets # doesnt' show address prefixes
+      subnets = {
+        "${data.azurerm_subnet.aks_api_server.name}" = data.azurerm_subnet.aks_api_server.address_prefixes[0]
+        "${data.azurerm_subnet.aks_nodes.name}"      = data.azurerm_subnet.aks_nodes.address_prefixes[0]
+      }
     }
     aks_cluster = {
-      name              = azurerm_kubernetes_cluster.aks.name
-      id                = azurerm_kubernetes_cluster.aks.id
-      fqdn              = azurerm_kubernetes_cluster.aks.fqdn
-      identity          = azurerm_kubernetes_cluster.aks.identity
-      node_rg           = azurerm_kubernetes_cluster.aks.node_resource_group
-      static_ingress_ip = data.azurerm_public_ip.aks_ingress.ip_address
-      kubelet_identity  = azurerm_kubernetes_cluster.aks.kubelet_identity
+      name             = azurerm_kubernetes_cluster.aks.name
+      id               = azurerm_kubernetes_cluster.aks.id
+      fqdn             = azurerm_kubernetes_cluster.aks.fqdn
+      identity         = azurerm_kubernetes_cluster.aks.identity
+      node_rg          = azurerm_kubernetes_cluster.aks.node_resource_group
+      kubelet_identity = azurerm_kubernetes_cluster.aks.kubelet_identity
     }
     tls_key_vault = {
       id                  = data.azurerm_key_vault.shared_kv.id

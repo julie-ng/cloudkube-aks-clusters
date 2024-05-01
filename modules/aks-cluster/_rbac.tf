@@ -110,6 +110,17 @@ resource "azurerm_role_assignment" "control_plane_on_nodes_subnet" {
   principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
 }
 
+resource "azurerm_role_assignment" "control_plane_on_ingress_ip" {
+  role_definition_name = "Network Contributor"
+  scope                = data.azurerm_public_ip.aks_ingress.id
+  principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
+}
+
+resource "azurerm_role_assignment" "control_plane_on_networking_rg" {
+  role_definition_name = "Reader" # so it can find the static IP
+  scope                = data.azurerm_resource_group.networking.id
+  principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
+}
 
 
 # Key Vault
