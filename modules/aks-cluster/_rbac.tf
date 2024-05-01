@@ -12,17 +12,21 @@
 # https://www.terraform.io/language/data-sources#data-resource-dependencies
 
 locals {
-  aks_managed_resource_group_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${local.name_suffixed}-managed-rg" # circular dependency
+  cluster_principal_id       = azurerm_user_assigned_identity.control_plane_mi.principal_id
+  kubelet_principal_id       = azurerm_user_assigned_identity.kubelet_mi.principal_id
+  aks_managed_resource_group = azurerm_kubernetes_cluster.aks.node_resource_group
+  # aks_managed_resource_group_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${local.name_suffixed}-managed-rg" # circular dependency
 }
 
 # DO NOT USE
-# data "azurerm_resource_group" "aks_managed" {
-#   name = local.aks_managed_resource_group
-#   # needed if manaul suffix
-#   depends_on = [
-#     azurerm_kubernetes_cluster.aks
-#   ]
-# }
+data "azurerm_resource_group" "aks_managed" {
+  name = local.aks_managed_resource_group
+
+  # needed if manaul suffix
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
+}
 
 
 # =========
@@ -56,7 +60,7 @@ resource "azurerm_role_assignment" "control_plane_mi" {
 # AKS Managed Resource Group
 resource "azurerm_role_assignment" "control_plane_mi_nodes" {
   role_definition_name = "Managed Identity Operator"
-  scope                = local.aks_managed_resource_group_id # data.azurerm_resource_group.aks_managed.id
+  scope                = data.azurerm_resource_group.aks_managed.id
   principal_id         = azurerm_user_assigned_identity.control_plane_mi.principal_id
 
   # circular - wait for managed RG
@@ -104,7 +108,7 @@ resource "azurerm_role_assignment" "kubelet_mi_operator" {
 # AKS Managed Resource Group
 resource "azurerm_role_assignment" "kubelet_mi_operator_nodes" {
   role_definition_name = "Managed Identity Operator"
-  scope                = local.aks_managed_resource_group_id # data.azurerm_resource_group.aks_managed.id
+  scope                = data.azurerm_resource_group.aks_managed.id
   principal_id         = azurerm_user_assigned_identity.kubelet_mi.principal_id
 
   # circular - wait for managed RG
@@ -115,7 +119,7 @@ resource "azurerm_role_assignment" "kubelet_mi_operator_nodes" {
 
 resource "azurerm_role_assignment" "kubelet_vm_contributor" {
   role_definition_name = "Virtual Machine Contributor"
-  scope                = local.aks_managed_resource_group_id # data.azurerm_resource_group.aks_managed.id
+  scope                = data.azurerm_resource_group.aks_managed.id
   principal_id         = azurerm_user_assigned_identity.kubelet_mi.principal_id
 
   # circular - wait for managed RG
