@@ -49,10 +49,6 @@ output "summary" {
       control_plane = azurerm_user_assigned_identity.control_plane_mi
       kubelet       = azurerm_user_assigned_identity.kubelet_mi
     }
-    principal_ids = {
-      cluster_principal_id = local.cluster_principal_id
-      kubelet_principal_id = local.kubelet_principal_id
-    }
     key_vault = {
       id                         = azurerm_key_vault.cluster_kv.id
       name                       = azurerm_key_vault.cluster_kv.name
