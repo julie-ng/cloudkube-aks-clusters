@@ -28,9 +28,8 @@ AKS_TENANT_ID=$(shell terraform output -json summary | jq -r .azure_subscription
 AKS_RG_NAME=$(shell terraform output -json summary | jq -r .resource_group.name)
 AKS_CLUSTER_NAME=$(shell terraform output -json summary | jq -r .aks_cluster.name)
 KUBELET_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .managed_identities.kubelet.client_id)
-INGRESS_MI_NAME=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.name)
-INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.client_id)
-INGRESS_MI_RESOURCE_ID=$(shell terraform output -json summary | jq -r .aks_cluster.ingress_mi.id)
+INGRESS_MI_CLIENT_ID=$(shell terraform output -json summary | jq -r .managed_identities.ingress.client_id)
+OIDC_ISSUER_URL=$(shell terraform output -json summary | jq -r .aks_cluster.oidc_issuer_url)
 INGRESS_STATIC_IP_NAME=$(shell terraform output -json summary | jq -r .virtual_network.static_ingress_ip.name)
 INGRESS_STATIC_IP_RG=$(shell terraform output -json summary | jq -r .virtual_network.resource_group)
 CLUSTER_KV_NAME=$(shell terraform output -json summary | jq -r .key_vault.name)
@@ -105,8 +104,8 @@ uninstall-azure-kv-csi:
 # Ingress Controller
 # ------------------
 
-install-ingress: sync-certs install-ingress-chart apply-hello
-uninstall-ingress: remove-hello uninstall-ingress-chart unsync-certs
+install-ingress: sync-certs install-ingress-identity install-ingress-chart apply-hello
+uninstall-ingress: remove-hello uninstall-ingress-chart uninstall-ingress-identity unsync-certs
 
 sync-certs:
 	@cat ./manifests/ingress/secret-provider-classes.yaml | envsubst | kubectl apply -f -
@@ -131,6 +130,16 @@ uninstall-ingress-chart:
 	@echo "${PURPLE} Ingress ${RESET} ${RED_TEXT}helm uninstall${RESET}"
 	helm uninstall ingress-basic --namespace $$INGRESS_NAMESPACE
 
+install-ingress-identity:
+	@echo ""
+	@echo "${PURPLE} Ingress ${RESET} ${YELLOW_TEXT}setup managed identity${RESET}"
+	@cat ./manifests/ingress/service-account.yaml | envsubst | kubectl apply -f -
+
+uninstall-ingress-identity:
+	@echo ""
+	@echo "${PURPLE} Ingress ${RESET} ${RED_TEXT}uninstall managed identity${RESET}"
+	@cat ./manifests/ingress/service-account.yaml | envsubst | kubectl delete -f -
+
 
 # Hello World
 # -----------
@@ -138,6 +147,7 @@ uninstall-ingress-chart:
 apply-hello:
 	@echo ""
 	@echo "${PURPLE} Hello World ${RESET} ${YELLOW_TEXT}kubectl apply -f manifests/hello-world/…${RESET}"
+	@cat ./manifests/hello-world/service-account.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/secret-provider-class.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/deployment.yaml | envsubst | kubectl apply -f -
 	@cat ./manifests/hello-world/ingress.yaml | envsubst | kubectl apply -f -

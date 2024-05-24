@@ -12,7 +12,9 @@ spec:
     metadata:
       labels:
         app: hello-world
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: ingress-workload-identity
       nodeSelector:
         agentpool: workloads
       topologySpreadConstraints:

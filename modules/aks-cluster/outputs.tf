@@ -31,6 +31,7 @@ output "summary" {
       identity         = azurerm_kubernetes_cluster.aks.identity
       node_rg          = azurerm_kubernetes_cluster.aks.node_resource_group
       kubelet_identity = azurerm_kubernetes_cluster.aks.kubelet_identity
+      oidc_issuer_url  = azurerm_kubernetes_cluster.aks.oidc_issuer_url
     }
     tls_key_vault = {
       id                  = data.azurerm_key_vault.shared_kv.id
@@ -48,6 +49,7 @@ output "summary" {
     managed_identities = {
       control_plane = azurerm_user_assigned_identity.control_plane_mi
       kubelet       = azurerm_user_assigned_identity.kubelet_mi
+      ingress       = azurerm_user_assigned_identity.ingress_workload_mi
     }
     key_vault = {
       id                         = azurerm_key_vault.cluster_kv.id
