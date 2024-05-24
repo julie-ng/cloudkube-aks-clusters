@@ -2,12 +2,6 @@
 
 This project uses different [Azure Storage Accounts](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction) for different environments. Multiple Storage Accounts serve as security boundaries. Per best practice production resources require elevated privileges, i.e. different credentials.
 
-
-## Reference
-
-- [Terraform Docs: azurerm backend configuration](https://developer.hashicorp.com/terraform/language/settings/backends/azurerm) - all auth methods and params
-- [Azure Docs: create shared access signature (SAS) for Storage Accounts](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview)
-
 ## Setup State Files
 
 This assumes you already have an [Azure Storage Account](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal).
@@ -20,10 +14,11 @@ This assumes you already have an [Azure Storage Account](https://learn.microsoft
 2) **Add [azurerm backend configuration](https://www.terraform.io/docs/language/settings/backends/azurerm.html)** for each file, for example:
 
 ```hcl
-storage_account_name="storageaccountname"
-container_name="aks-clusters"
-key="dev.cluster.tfstate"
-sas_token="?se=…"
+storage_account_name = "storageaccountname"
+container_name       = "aks-clusters"
+key                  = "dev.cluster.tfstate"
+use_azuread_auth     = true     # option 1 (preferred)
+sas_token            = "?se=…"  # option 2 
 ```
 
 ## Load Config on Init

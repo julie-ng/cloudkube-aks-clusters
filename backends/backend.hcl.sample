@@ -1,4 +1,4 @@
-storage_account_name="storageaccountname"
-container_name="aks-clusters"
-key="dev.cluster.tfstate"
-sas_token="?se=…"
+storage_account_name = "storageaccountname"
+container_name       = "aks-clusters"
+key                  = "dev.cluster.tfstate"
+use_azuread_auth     = true
