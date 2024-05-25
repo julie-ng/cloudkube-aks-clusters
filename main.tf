@@ -66,3 +66,27 @@ module "cluster" {
   log_analytics_workspace_name = var.log_analytics_workspace_name
   log_analytics_workspace_rg   = var.log_analytics_workspace_rg
 }
+
+locals {
+  # workloads = {
+  #   hello_world = {
+  #     name        = "hello-world"
+  #     description = "The hello-welt app used on dev.cloudkube.io"
+  #   }
+  #   aks_cheatsheets = {
+  #     name        = "aks-cheatsheets"
+  #     description = "aks-cheatsheets.dev app"
+  #   }
+  # }
+  workloads = ["hello-world", "aks-cheatsheets"]
+}
+
+module "workloads" {
+  for_each = toset(local.workloads)
+  source   = "./modules/workload"
+
+  name                = each.value
+  suffix              = local.suffix
+  resource_group_name = module.cluster.summary.resource_group.name
+  aks_oidc_issuer_url = module.cluster.summary.aks_cluster.oidc_issuer_url
+}
