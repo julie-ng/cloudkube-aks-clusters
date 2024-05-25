@@ -14,7 +14,7 @@ spec:
         app: hello-world
         azure.workload.identity/use: "true"
     spec:
-      serviceAccountName: ingress-workload-identity
+      serviceAccountName: hello-world-workload
       nodeSelector:
         agentpool: workloads
       topologySpreadConstraints:

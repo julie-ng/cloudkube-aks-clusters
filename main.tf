@@ -78,7 +78,11 @@ locals {
   #     description = "aks-cheatsheets.dev app"
   #   }
   # }
-  workloads = ["hello-world", "aks-cheatsheets"]
+  workloads = [
+    "ingress",
+    "hello-world",
+    "aks-cheatsheets"
+  ]
 }
 
 module "workloads" {
